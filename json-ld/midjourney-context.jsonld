@@ -1,0 +1,87 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "mj": "https://api.midjourney.com/vocab/",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+
+    "ImageGenerationJob": {
+      "@id": "mj:ImageGenerationJob",
+      "@context": {
+        "jobId": "mj:jobId",
+        "jobType": "mj:jobType",
+        "status": "schema:actionStatus",
+        "progress": "mj:progress",
+        "prompt": "mj:prompt",
+        "parentJobId": {
+          "@id": "mj:parentJobId",
+          "@type": "@id"
+        },
+        "imageIndex": "mj:imageIndex",
+        "result": "schema:result",
+        "error": "schema:error",
+        "createdAt": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        },
+        "updatedAt": {
+          "@id": "dcterms:modified",
+          "@type": "xsd:dateTime"
+        },
+        "completedAt": {
+          "@id": "mj:completedAt",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "GeneratedImage": {
+      "@id": "mj:GeneratedImage",
+      "@context": {
+        "url": {
+          "@id": "schema:contentUrl",
+          "@type": "@id"
+        },
+        "index": "mj:gridIndex",
+        "width": "schema:width",
+        "height": "schema:height",
+        "contentType": "schema:encodingFormat"
+      }
+    },
+
+    "GenerationParameters": {
+      "@id": "mj:GenerationParameters",
+      "@context": {
+        "aspectRatio": "mj:aspectRatio",
+        "modelVersion": "schema:softwareVersion",
+        "processMode": "mj:processMode",
+        "quality": "mj:quality",
+        "stylize": "mj:stylize",
+        "chaos": "mj:chaos",
+        "seed": "mj:seed",
+        "negativePrompt": "mj:negativePrompt"
+      }
+    },
+
+    "PromptSuggestion": {
+      "@id": "mj:PromptSuggestion",
+      "@context": {
+        "text": "schema:text",
+        "sourceImage": {
+          "@id": "mj:sourceImage",
+          "@type": "@id"
+        }
+      }
+    },
+
+    "images": {
+      "@id": "mj:images",
+      "@container": "@set"
+    },
+    "prompts": {
+      "@id": "mj:prompts",
+      "@container": "@set"
+    }
+  }
+}

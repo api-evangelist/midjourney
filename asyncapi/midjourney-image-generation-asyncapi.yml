@@ -1,0 +1,216 @@
+asyncapi: 2.6.0
+info:
+  title: Midjourney Image Generation Webhooks
+  description: >-
+    The Midjourney Image Generation webhook interface delivers real-time
+    notifications about image generation job status changes. When a webhook
+    URL is provided during job creation, Midjourney sends HTTP POST requests
+    to the specified URL whenever a job transitions between states such as
+    pending, in progress, completed, or failed. This eliminates the need
+    for polling the job status endpoint and enables event-driven integration
+    patterns for applications consuming Midjourney's image generation
+    capabilities.
+  version: '1.0.0'
+  contact:
+    name: Midjourney Support
+    url: https://docs.midjourney.com/hc/en-us
+servers:
+  webhookReceiver:
+    url: '{webhookUrl}'
+    protocol: https
+    description: >-
+      The webhook receiver endpoint configured by the client application.
+      Midjourney sends HTTP POST requests to this URL when job status
+      changes occur. The URL is specified per-job in the webhook_url
+      parameter of generation requests.
+    variables:
+      webhookUrl:
+        description: >-
+          The client-provided webhook URL that receives job status
+          notifications.
+    security:
+      - webhookSignature: []
+channels:
+  /webhook:
+    description: >-
+      Webhook delivery channel for image generation job status events.
+      Events are sent as HTTP POST requests with a JSON payload containing
+      the full job object. The webhook_type parameter specified during job
+      creation controls whether progress updates or only final results
+      are delivered.
+    publish:
+      operationId: receiveJobStatusEvent
+      summary: Receive job status change notifications
+      description: >-
+        Receives webhook notifications when an image generation job changes
+        status. The payload includes the complete job object with current
+        status, progress percentage, and result data when available. Events
+        are delivered for status transitions including pending to in_progress,
+        in_progress progress updates, and terminal states such as completed,
+        failed, or cancelled.
+      message:
+        oneOf:
+          - $ref: '#/components/messages/JobProgressEvent'
+          - $ref: '#/components/messages/JobCompletedEvent'
+          - $ref: '#/components/messages/JobFailedEvent'
+          - $ref: '#/components/messages/JobCancelledEvent'
+components:
+  securitySchemes:
+    webhookSignature:
+      type: httpApiKey
+      name: X-Midjourney-Signature
+      in: header
+      description: >-
+        HMAC-SHA256 signature of the webhook payload for verifying that
+        the notification originated from Midjourney. The signature is
+        computed using the webhook secret associated with the API key.
+        Clients should validate this signature before processing the
+        webhook payload to prevent spoofed notifications.
+  messages:
+    JobProgressEvent:
+      name: jobProgress
+      title: Job Progress Event
+      summary: >-
+        Sent when a job's progress percentage updates during processing.
+        Only delivered when webhook_type is set to progress.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/JobWebhookPayload'
+    JobCompletedEvent:
+      name: jobCompleted
+      title: Job Completed Event
+      summary: >-
+        Sent when a job finishes successfully and generated images are
+        available for download. The result field contains URLs of all
+        generated images.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/JobWebhookPayload'
+    JobFailedEvent:
+      name: jobFailed
+      title: Job Failed Event
+      summary: >-
+        Sent when a job fails due to an error such as content policy
+        violation, invalid parameters, or an internal processing error.
+        The error field contains details about the failure.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/JobWebhookPayload'
+    JobCancelledEvent:
+      name: jobCancelled
+      title: Job Cancelled Event
+      summary: >-
+        Sent when a job is cancelled by the user before completion.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/JobWebhookPayload'
+  schemas:
+    JobWebhookPayload:
+      type: object
+      description: >-
+        The webhook payload delivered for job status change events.
+        Contains the complete job object with current state and results.
+      required:
+        - event
+        - job_id
+        - status
+        - timestamp
+      properties:
+        event:
+          type: string
+          description: >-
+            The type of webhook event being delivered.
+          enum:
+            - job.progress
+            - job.completed
+            - job.failed
+            - job.cancelled
+        job_id:
+          type: string
+          format: uuid
+          description: >-
+            The unique identifier of the job that triggered this event.
+        status:
+          type: string
+          description: >-
+            The current status of the job.
+          enum:
+            - pending
+            - in_progress
+            - completed
+            - failed
+            - cancelled
+        progress:
+          type: integer
+          description: >-
+            The completion progress as a percentage from 0 to 100.
+          minimum: 0
+          maximum: 100
+        type:
+          type: string
+          description: >-
+            The type of image generation operation.
+          enum:
+            - imagine
+            - upscale
+            - variation
+            - describe
+            - blend
+        prompt:
+          type: string
+          description: >-
+            The text prompt used for the generation job.
+        result:
+          type: object
+          description: >-
+            The generation results, present when the job has completed
+            successfully.
+          properties:
+            images:
+              type: array
+              description: >-
+                List of generated image URLs and metadata.
+              items:
+                type: object
+                properties:
+                  url:
+                    type: string
+                    format: uri
+                    description: >-
+                      The download URL for the generated image.
+                  index:
+                    type: integer
+                    description: >-
+                      The position of this image in the generation grid.
+                  width:
+                    type: integer
+                    description: >-
+                      The width of the image in pixels.
+                  height:
+                    type: integer
+                    description: >-
+                      The height of the image in pixels.
+            prompts:
+              type: array
+              description: >-
+                Generated prompt suggestions for describe jobs.
+              items:
+                type: string
+        error:
+          type: object
+          description: >-
+            Error details, present when the job has failed.
+          properties:
+            code:
+              type: string
+              description: >-
+                Machine-readable error code.
+            message:
+              type: string
+              description: >-
+                Human-readable error description.
+        timestamp:
+          type: string
+          format: date-time
+          description: >-
+            ISO 8601 timestamp when this webhook event was generated.

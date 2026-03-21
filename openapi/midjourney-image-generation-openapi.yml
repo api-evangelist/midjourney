@@ -1,0 +1,904 @@
+openapi: 3.1.0
+info:
+  title: Midjourney Image Generation API
+  description: >-
+    The Midjourney Image Generation API provides programmatic access to
+    Midjourney's AI-powered image generation capabilities. Developers can
+    submit text prompts to generate images, upscale selected outputs to
+    higher resolutions, create variations of generated images, describe
+    existing images to generate prompts, and blend multiple images together.
+    The API uses an asynchronous job-based workflow where image generation
+    requests return a job identifier that can be polled for status and
+    results. Webhook callbacks are supported for real-time job status
+    notifications. Enterprise API access is available through the Midjourney
+    Enterprise dashboard.
+  version: '1.0.0'
+  contact:
+    name: Midjourney Support
+    url: https://docs.midjourney.com/hc/en-us
+  termsOfService: https://docs.midjourney.com/hc/en-us/articles/32013317003661-Terms-of-Service
+externalDocs:
+  description: Midjourney Documentation
+  url: https://docs.midjourney.com/
+servers:
+  - url: https://api.midjourney.com
+    description: Midjourney Production API Server
+tags:
+  - name: Image Generation
+    description: >-
+      Operations for generating images from text prompts, including the
+      core imagine endpoint that produces a grid of images from a
+      natural language description.
+  - name: Image Manipulation
+    description: >-
+      Operations for manipulating existing generated images, including
+      upscaling to higher resolutions, creating variations, blending
+      multiple images, and region-based inpainting.
+  - name: Image Analysis
+    description: >-
+      Operations for analyzing existing images, including the describe
+      endpoint that generates text prompts from uploaded images.
+  - name: Jobs
+    description: >-
+      Operations for tracking and managing asynchronous image generation
+      jobs, including retrieving job status, results, and listing
+      previous jobs.
+security:
+  - bearerAuth: []
+paths:
+  /v1/imagine:
+    post:
+      operationId: createImagineJob
+      summary: Generate images from a text prompt
+      description: >-
+        Submits a text prompt to generate a grid of up to four unique images
+        using Midjourney's AI models. The request is processed asynchronously
+        and returns a job identifier that can be used to poll for results or
+        receive updates via webhook. Supports parameters for aspect ratio,
+        model version, quality, stylization, and other generation settings
+        embedded in the prompt string or as separate parameters.
+      tags:
+        - Image Generation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImagineRequest'
+      responses:
+        '200':
+          description: >-
+            Job successfully created. Returns a job identifier for tracking
+            the asynchronous image generation process.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobCreatedResponse'
+        '400':
+          description: >-
+            Invalid request. The prompt may be empty, contain blocked
+            content, or parameters may be malformed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: >-
+            Authentication failed. The API key is missing, invalid, or
+            expired.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: >-
+            Rate limit exceeded. Too many requests have been submitted
+            in the current time window.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/upscale:
+    post:
+      operationId: createUpscaleJob
+      summary: Upscale a generated image to higher resolution
+      description: >-
+        Upscales a specific image from a previously generated image grid
+        to a higher resolution. Requires the job identifier of the original
+        generation and the index of the image to upscale (1-4). The upscaled
+        image is produced asynchronously and the result can be retrieved via
+        the job status endpoint or webhook callback.
+      tags:
+        - Image Manipulation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpscaleRequest'
+      responses:
+        '200':
+          description: >-
+            Upscale job successfully created. Returns a new job identifier
+            for tracking the upscale operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobCreatedResponse'
+        '400':
+          description: >-
+            Invalid request. The parent job ID may be invalid or the
+            image index out of range.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: >-
+            Authentication failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: >-
+            The referenced parent job was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/variations:
+    post:
+      operationId: createVariationJob
+      summary: Create variations of a generated image
+      description: >-
+        Generates a new grid of image variations based on a specific image
+        from a previously generated grid. Requires the job identifier of the
+        original generation and the index of the image to vary (1-4). Each
+        variation maintains the general style and composition of the source
+        image while introducing creative differences.
+      tags:
+        - Image Manipulation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VariationRequest'
+      responses:
+        '200':
+          description: >-
+            Variation job successfully created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobCreatedResponse'
+        '400':
+          description: >-
+            Invalid request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: >-
+            Authentication failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: >-
+            The referenced parent job was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/describe:
+    post:
+      operationId: createDescribeJob
+      summary: Generate text prompts from an image
+      description: >-
+        Analyzes an uploaded image and generates multiple text prompt
+        suggestions that could be used to recreate a similar image with the
+        imagine endpoint. The image can be provided as a URL or base64-encoded
+        data. Returns up to four prompt suggestions per image.
+      tags:
+        - Image Analysis
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DescribeRequest'
+      responses:
+        '200':
+          description: >-
+            Describe job successfully created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobCreatedResponse'
+        '400':
+          description: >-
+            Invalid request. The image URL may be inaccessible or the
+            base64 data malformed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: >-
+            Authentication failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/blend:
+    post:
+      operationId: createBlendJob
+      summary: Blend multiple images together
+      description: >-
+        Blends two to five images together to create a new composite image
+        that merges the visual concepts, styles, and compositions of the
+        source images. Images can be provided as URLs or base64-encoded data.
+        An optional text prompt can be included to guide the blending process.
+      tags:
+        - Image Manipulation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BlendRequest'
+      responses:
+        '200':
+          description: >-
+            Blend job successfully created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobCreatedResponse'
+        '400':
+          description: >-
+            Invalid request. At least two images are required and no
+            more than five are allowed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: >-
+            Authentication failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/jobs/{jobId}:
+    get:
+      operationId: getJobStatus
+      summary: Get the status and results of a job
+      description: >-
+        Retrieves the current status, progress, and results of an
+        asynchronous image generation job. Returns the job metadata
+        including status, progress percentage, and when complete, the
+        URLs of the generated images. Poll this endpoint to track job
+        progress when webhooks are not configured.
+      tags:
+        - Jobs
+      parameters:
+        - $ref: '#/components/parameters/jobId'
+      responses:
+        '200':
+          description: >-
+            Job details retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+        '401':
+          description: >-
+            Authentication failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: >-
+            Job not found. The job ID may be invalid or the job may
+            have expired.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/jobs:
+    get:
+      operationId: listJobs
+      summary: List image generation jobs
+      description: >-
+        Retrieves a paginated list of image generation jobs for the
+        authenticated account. Jobs can be filtered by status and sorted
+        by creation date. Returns job metadata including status, prompts,
+        and result URLs for completed jobs.
+      tags:
+        - Jobs
+      parameters:
+        - name: status
+          in: query
+          description: >-
+            Filter jobs by their current status.
+          required: false
+          schema:
+            type: string
+            enum:
+              - pending
+              - in_progress
+              - completed
+              - failed
+              - cancelled
+        - name: limit
+          in: query
+          description: >-
+            Maximum number of jobs to return per page.
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 25
+        - name: offset
+          in: query
+          description: >-
+            Number of jobs to skip for pagination.
+          required: false
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+        - name: sort
+          in: query
+          description: >-
+            Sort order for the returned jobs.
+          required: false
+          schema:
+            type: string
+            enum:
+              - created_at_asc
+              - created_at_desc
+            default: created_at_desc
+      responses:
+        '200':
+          description: >-
+            List of jobs retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobListResponse'
+        '401':
+          description: >-
+            Authentication failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/jobs/{jobId}/cancel:
+    post:
+      operationId: cancelJob
+      summary: Cancel a pending or in-progress job
+      description: >-
+        Cancels a job that is currently pending or in progress. Jobs that
+        have already completed or failed cannot be cancelled. Cancelled
+        jobs do not consume generation credits.
+      tags:
+        - Jobs
+      parameters:
+        - $ref: '#/components/parameters/jobId'
+      responses:
+        '200':
+          description: >-
+            Job cancelled successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+        '400':
+          description: >-
+            Job cannot be cancelled because it has already completed
+            or failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: >-
+            Authentication failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: >-
+            Job not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: API Key
+      description: >-
+        API key obtained from the Midjourney Enterprise dashboard.
+        Include in the Authorization header as a Bearer token.
+  parameters:
+    jobId:
+      name: jobId
+      in: path
+      required: true
+      description: >-
+        The unique identifier of the image generation job.
+      schema:
+        type: string
+        format: uuid
+  schemas:
+    ImagineRequest:
+      type: object
+      required:
+        - prompt
+      properties:
+        prompt:
+          type: string
+          description: >-
+            The text prompt describing the image to generate. May include
+            Midjourney parameters such as --ar for aspect ratio, --v for
+            model version, --q for quality, and --s for stylization.
+          minLength: 1
+          maxLength: 4000
+        aspect_ratio:
+          type: string
+          description: >-
+            The aspect ratio for the generated images, expressed as
+            width:height. Common values include 1:1, 16:9, 9:16, 4:3,
+            and 3:2.
+          pattern: '^[0-9]+:[0-9]+$'
+          default: '1:1'
+        model_version:
+          type: string
+          description: >-
+            The Midjourney model version to use for generation.
+          enum:
+            - '5.2'
+            - '6.0'
+            - '6.1'
+            - '7.0'
+        process_mode:
+          type: string
+          description: >-
+            The processing speed mode for the generation job. Fast mode
+            uses GPU credits, turbo mode uses more credits for faster
+            results, and relax mode queues the job for processing during
+            low-demand periods.
+          enum:
+            - fast
+            - turbo
+            - relax
+          default: fast
+        quality:
+          type: number
+          description: >-
+            The quality setting for image generation. Higher values
+            produce more detailed images but consume more GPU time.
+          enum:
+            - 0.25
+            - 0.5
+            - 1.0
+            - 2.0
+          default: 1.0
+        stylize:
+          type: integer
+          description: >-
+            The stylization strength applied during generation. Lower
+            values produce images more closely matching the prompt,
+            while higher values apply more artistic interpretation.
+          minimum: 0
+          maximum: 1000
+          default: 100
+        chaos:
+          type: integer
+          description: >-
+            Controls the variation between the four generated images.
+            Higher values produce more diverse and unexpected results.
+          minimum: 0
+          maximum: 100
+          default: 0
+        seed:
+          type: integer
+          description: >-
+            A seed value for reproducible generation. Using the same
+            seed with the same prompt and settings produces similar
+            results.
+          minimum: 0
+          maximum: 4294967295
+        no:
+          type: string
+          description: >-
+            Negative prompt specifying elements to exclude from the
+            generated image.
+        image_url:
+          type: string
+          format: uri
+          description: >-
+            URL of a reference image to use as a starting point for
+            generation. The image influences the style and composition
+            of the output.
+        webhook_url:
+          type: string
+          format: uri
+          description: >-
+            URL to receive webhook notifications when the job status
+            changes. POST requests are sent with the job payload on
+            each status transition.
+        webhook_type:
+          type: string
+          description: >-
+            Controls when webhook notifications are sent. Use progress
+            for updates on each status change, or result to only receive
+            a notification upon completion or failure.
+          enum:
+            - progress
+            - result
+          default: result
+    UpscaleRequest:
+      type: object
+      required:
+        - job_id
+        - index
+      properties:
+        job_id:
+          type: string
+          format: uuid
+          description: >-
+            The job identifier of the original image generation job
+            containing the image to upscale.
+        index:
+          type: integer
+          description: >-
+            The index of the image in the generation grid to upscale,
+            from 1 (top-left) to 4 (bottom-right).
+          minimum: 1
+          maximum: 4
+        webhook_url:
+          type: string
+          format: uri
+          description: >-
+            URL to receive webhook notifications for this upscale job.
+        webhook_type:
+          type: string
+          description: >-
+            Controls when webhook notifications are sent.
+          enum:
+            - progress
+            - result
+          default: result
+    VariationRequest:
+      type: object
+      required:
+        - job_id
+        - index
+      properties:
+        job_id:
+          type: string
+          format: uuid
+          description: >-
+            The job identifier of the original image generation job
+            containing the image to create variations from.
+        index:
+          type: integer
+          description: >-
+            The index of the image in the generation grid to vary,
+            from 1 (top-left) to 4 (bottom-right).
+          minimum: 1
+          maximum: 4
+        webhook_url:
+          type: string
+          format: uri
+          description: >-
+            URL to receive webhook notifications for this variation job.
+        webhook_type:
+          type: string
+          description: >-
+            Controls when webhook notifications are sent.
+          enum:
+            - progress
+            - result
+          default: result
+    DescribeRequest:
+      type: object
+      properties:
+        image_url:
+          type: string
+          format: uri
+          description: >-
+            URL of the image to analyze and generate prompt suggestions
+            for. Either image_url or image_base64 must be provided.
+        image_base64:
+          type: string
+          format: byte
+          description: >-
+            Base64-encoded image data to analyze. Either image_url or
+            image_base64 must be provided.
+        webhook_url:
+          type: string
+          format: uri
+          description: >-
+            URL to receive webhook notifications for this describe job.
+        webhook_type:
+          type: string
+          description: >-
+            Controls when webhook notifications are sent.
+          enum:
+            - progress
+            - result
+          default: result
+    BlendRequest:
+      type: object
+      required:
+        - images
+      properties:
+        images:
+          type: array
+          description: >-
+            List of images to blend together. Between two and five images
+            can be provided, each as a URL or base64-encoded data.
+          minItems: 2
+          maxItems: 5
+          items:
+            type: object
+            properties:
+              url:
+                type: string
+                format: uri
+                description: >-
+                  URL of the image to include in the blend.
+              base64:
+                type: string
+                format: byte
+                description: >-
+                  Base64-encoded image data to include in the blend.
+        aspect_ratio:
+          type: string
+          description: >-
+            The aspect ratio for the blended output image.
+          pattern: '^[0-9]+:[0-9]+$'
+          default: '1:1'
+        prompt:
+          type: string
+          description: >-
+            Optional text prompt to guide the blending process.
+          maxLength: 4000
+        webhook_url:
+          type: string
+          format: uri
+          description: >-
+            URL to receive webhook notifications for this blend job.
+        webhook_type:
+          type: string
+          description: >-
+            Controls when webhook notifications are sent.
+          enum:
+            - progress
+            - result
+          default: result
+    Job:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: >-
+            The unique identifier for this job.
+        type:
+          type: string
+          description: >-
+            The type of image generation operation.
+          enum:
+            - imagine
+            - upscale
+            - variation
+            - describe
+            - blend
+        status:
+          type: string
+          description: >-
+            The current processing status of the job.
+          enum:
+            - pending
+            - in_progress
+            - completed
+            - failed
+            - cancelled
+        progress:
+          type: integer
+          description: >-
+            The completion progress as a percentage from 0 to 100.
+          minimum: 0
+          maximum: 100
+        prompt:
+          type: string
+          description: >-
+            The text prompt used for this generation job.
+        parameters:
+          type: object
+          description: >-
+            The generation parameters used for this job, including
+            aspect ratio, model version, and quality settings.
+          properties:
+            aspect_ratio:
+              type: string
+              description: >-
+                The aspect ratio used for generation.
+            model_version:
+              type: string
+              description: >-
+                The Midjourney model version used.
+            process_mode:
+              type: string
+              description: >-
+                The processing speed mode used.
+            quality:
+              type: number
+              description: >-
+                The quality setting used.
+            stylize:
+              type: integer
+              description: >-
+                The stylization value used.
+            seed:
+              type: integer
+              description: >-
+                The seed value used for generation.
+        result:
+          $ref: '#/components/schemas/JobResult'
+        error:
+          type: object
+          description: >-
+            Error details if the job failed.
+          properties:
+            code:
+              type: string
+              description: >-
+                Machine-readable error code.
+            message:
+              type: string
+              description: >-
+                Human-readable error description.
+        created_at:
+          type: string
+          format: date-time
+          description: >-
+            ISO 8601 timestamp when the job was created.
+        updated_at:
+          type: string
+          format: date-time
+          description: >-
+            ISO 8601 timestamp when the job was last updated.
+        completed_at:
+          type: string
+          format: date-time
+          description: >-
+            ISO 8601 timestamp when the job completed, if applicable.
+    JobResult:
+      type: object
+      description: >-
+        The output of a completed image generation job.
+      properties:
+        images:
+          type: array
+          description: >-
+            List of generated image URLs. For imagine jobs this contains
+            the grid image and individual image URLs. For upscale jobs
+            this contains the single upscaled image.
+          items:
+            $ref: '#/components/schemas/GeneratedImage'
+        prompts:
+          type: array
+          description: >-
+            List of generated prompt suggestions. Only present for
+            describe job results.
+          items:
+            type: string
+    GeneratedImage:
+      type: object
+      description: >-
+        A single generated image with its metadata.
+      properties:
+        url:
+          type: string
+          format: uri
+          description: >-
+            The URL where the generated image can be downloaded.
+        index:
+          type: integer
+          description: >-
+            The position of this image in the generation grid (1-4),
+            or null for grid and upscaled images.
+          minimum: 1
+          maximum: 4
+        width:
+          type: integer
+          description: >-
+            The width of the image in pixels.
+        height:
+          type: integer
+          description: >-
+            The height of the image in pixels.
+        content_type:
+          type: string
+          description: >-
+            The MIME type of the image file.
+          enum:
+            - image/png
+            - image/webp
+    JobCreatedResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: >-
+            Indicates the request was accepted.
+          enum:
+            - SUCCESS
+        message:
+          type: string
+          description: >-
+            A human-readable message confirming job creation.
+        data:
+          type: object
+          properties:
+            job_id:
+              type: string
+              format: uuid
+              description: >-
+                The unique identifier assigned to the created job.
+                Use this ID to poll for status or receive webhook
+                notifications.
+    JobListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          description: >-
+            List of jobs matching the query parameters.
+          items:
+            $ref: '#/components/schemas/Job'
+        total:
+          type: integer
+          description: >-
+            Total number of jobs matching the filter criteria.
+        limit:
+          type: integer
+          description: >-
+            The maximum number of results per page.
+        offset:
+          type: integer
+          description: >-
+            The offset used for pagination.
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: >-
+            Indicates the request failed.
+          enum:
+            - ERROR
+        code:
+          type: string
+          description: >-
+            Machine-readable error code identifying the type of error.
+        message:
+          type: string
+          description: >-
+            Human-readable description of the error.

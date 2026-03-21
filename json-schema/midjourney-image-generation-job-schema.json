@@ -1,0 +1,205 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://midjourney.com/schemas/image-generation-job.json",
+  "title": "Midjourney Image Generation Job",
+  "description": "Represents an asynchronous image generation job in the Midjourney API, including its configuration parameters, current status, and generation results.",
+  "type": "object",
+  "required": ["id", "type", "status", "created_at"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "The unique identifier assigned to this image generation job."
+    },
+    "type": {
+      "type": "string",
+      "description": "The type of image generation operation performed by this job.",
+      "enum": ["imagine", "upscale", "variation", "describe", "blend"]
+    },
+    "status": {
+      "type": "string",
+      "description": "The current processing status of the job.",
+      "enum": ["pending", "in_progress", "completed", "failed", "cancelled"]
+    },
+    "progress": {
+      "type": "integer",
+      "description": "The completion progress as a percentage from 0 to 100.",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "prompt": {
+      "type": "string",
+      "description": "The text prompt submitted for image generation.",
+      "maxLength": 4000
+    },
+    "parameters": {
+      "$ref": "#/$defs/GenerationParameters"
+    },
+    "parent_job_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "The job identifier of the parent generation, present for upscale and variation jobs."
+    },
+    "image_index": {
+      "type": "integer",
+      "description": "The index of the selected image from the parent job grid, present for upscale and variation jobs.",
+      "minimum": 1,
+      "maximum": 4
+    },
+    "result": {
+      "$ref": "#/$defs/JobResult"
+    },
+    "error": {
+      "$ref": "#/$defs/JobError"
+    },
+    "webhook_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "The webhook URL configured to receive status change notifications for this job."
+    },
+    "webhook_type": {
+      "type": "string",
+      "description": "Controls when webhook notifications are delivered for this job.",
+      "enum": ["progress", "result"],
+      "default": "result"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when the job was created."
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when the job was last updated."
+    },
+    "completed_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when the job completed processing."
+    }
+  },
+  "$defs": {
+    "GenerationParameters": {
+      "type": "object",
+      "description": "Configuration parameters that control the image generation process.",
+      "properties": {
+        "aspect_ratio": {
+          "type": "string",
+          "description": "The aspect ratio for generated images, expressed as width:height.",
+          "pattern": "^[0-9]+:[0-9]+$",
+          "default": "1:1"
+        },
+        "model_version": {
+          "type": "string",
+          "description": "The Midjourney model version used for generation.",
+          "enum": ["5.2", "6.0", "6.1", "7.0"]
+        },
+        "process_mode": {
+          "type": "string",
+          "description": "The processing speed mode for the generation job.",
+          "enum": ["fast", "turbo", "relax"],
+          "default": "fast"
+        },
+        "quality": {
+          "type": "number",
+          "description": "The quality setting controlling detail level and GPU time consumption.",
+          "enum": [0.25, 0.5, 1.0, 2.0],
+          "default": 1.0
+        },
+        "stylize": {
+          "type": "integer",
+          "description": "The stylization strength from 0 (literal) to 1000 (highly artistic).",
+          "minimum": 0,
+          "maximum": 1000,
+          "default": 100
+        },
+        "chaos": {
+          "type": "integer",
+          "description": "Controls the diversity between the four generated images in a grid.",
+          "minimum": 0,
+          "maximum": 100,
+          "default": 0
+        },
+        "seed": {
+          "type": "integer",
+          "description": "Seed value for reproducible generation results.",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "no": {
+          "type": "string",
+          "description": "Negative prompt specifying elements to exclude from generated images."
+        }
+      }
+    },
+    "JobResult": {
+      "type": "object",
+      "description": "The output of a successfully completed image generation job.",
+      "properties": {
+        "images": {
+          "type": "array",
+          "description": "List of generated images with download URLs and metadata.",
+          "items": {
+            "$ref": "#/$defs/GeneratedImage"
+          }
+        },
+        "prompts": {
+          "type": "array",
+          "description": "Generated text prompt suggestions, present only for describe job results.",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "GeneratedImage": {
+      "type": "object",
+      "description": "A single generated image with its metadata and download URL.",
+      "required": ["url"],
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "The URL where the generated image can be downloaded."
+        },
+        "index": {
+          "type": "integer",
+          "description": "The position of this image in the generation grid (1-4).",
+          "minimum": 1,
+          "maximum": 4
+        },
+        "width": {
+          "type": "integer",
+          "description": "The width of the image in pixels.",
+          "minimum": 1
+        },
+        "height": {
+          "type": "integer",
+          "description": "The height of the image in pixels.",
+          "minimum": 1
+        },
+        "content_type": {
+          "type": "string",
+          "description": "The MIME type of the image file.",
+          "enum": ["image/png", "image/webp"]
+        }
+      }
+    },
+    "JobError": {
+      "type": "object",
+      "description": "Error information for a failed image generation job.",
+      "required": ["code", "message"],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Machine-readable error code identifying the type of failure."
+        },
+        "message": {
+          "type": "string",
+          "description": "Human-readable description of the error."
+        }
+      }
+    }
+  }
+}

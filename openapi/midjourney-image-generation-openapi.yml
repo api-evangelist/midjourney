@@ -24,6 +24,10 @@ servers:
   - url: https://api.midjourney.com
     description: Midjourney Production API Server
 tags:
+  - name: Image Analysis
+    description: >-
+      Operations for analyzing existing images, including the describe
+      endpoint that generates text prompts from uploaded images.
   - name: Image Generation
     description: >-
       Operations for generating images from text prompts, including the
@@ -34,10 +38,6 @@ tags:
       Operations for manipulating existing generated images, including
       upscaling to higher resolutions, creating variations, blending
       multiple images, and region-based inpainting.
-  - name: Image Analysis
-    description: >-
-      Operations for analyzing existing images, including the describe
-      endpoint that generates text prompts from uploaded images.
   - name: Jobs
     description: >-
       Operations for tracking and managing asynchronous image generation

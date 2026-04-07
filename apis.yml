@@ -1,17 +1,15 @@
 aid: midjourney
-url: 
-  https://raw.githubusercontent.com/api-evangelist/midjourney/refs/heads/main/apis.yml
+url: https://raw.githubusercontent.com/api-evangelist/midjourney/refs/heads/main/apis.yml
 apis:
   - aid: midjourney:image-generation-api
     name: Midjourney Image Generation API
     tags:
       - AI
-      - Image Generation
-      - Text To Image
-      - Generative AI
       - Creative Tools
-    image: 
-      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+      - Generative AI
+      - Image Generation
+      - Text to Image
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.midjourney.com
     humanURL: https://docs.midjourney.com/
     properties:
@@ -33,12 +31,11 @@ apis:
     name: Midjourney Web Application
     tags:
       - AI
-      - Image Generation
-      - Web Application
       - Creative Tools
+      - Image Generation
       - User Interface
-    image: 
-      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+      - Web Application
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.example.com
     humanURL: https://www.midjourney.com/
     properties:
@@ -57,12 +54,11 @@ apis:
     name: Midjourney Discord Bot
     tags:
       - AI
-      - Image Generation
-      - Discord
       - Bot
       - Chat Interface
-    image: 
-      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+      - Discord
+      - Image Generation
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.example.com
     humanURL: https://docs.midjourney.com/hc/en-us
     properties:

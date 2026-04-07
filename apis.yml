@@ -1,5 +1,6 @@
 aid: midjourney
-url: https://raw.githubusercontent.com/api-evangelist/midjourney/refs/heads/main/apis.yml
+url: 
+  https://raw.githubusercontent.com/api-evangelist/midjourney/refs/heads/main/apis.yml
 apis:
   - aid: midjourney:image-generation-api
     name: Midjourney Image Generation API
@@ -9,7 +10,8 @@ apis:
       - Text To Image
       - Generative AI
       - Creative Tools
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.midjourney.com
     humanURL: https://docs.midjourney.com/
     properties:
@@ -22,14 +24,11 @@ apis:
       - url: json-schema/midjourney-image-generation-job-schema.json
         type: JSONSchema
     description: >-
-      The Midjourney Image Generation API provides programmatic access to
-      Midjourney's AI-powered image generation capabilities. Developers can
-      submit text prompts to generate images, upscale selected outputs to
-      higher resolutions, create variations of generated images, and use
-      describe functionality to generate prompts from existing images.
-      Enterprise API access is available through the Midjourney Enterprise
-      dashboard, allowing organizations to integrate Midjourney's generative
-      AI image creation into their own applications and workflows.
+      The Midjourney Image Generation API provides programmatic access to Midjourney's
+      AI-powered image generation capabilities. Developers can submit text prompts
+      to generate images, upscale selected outputs to higher resolutions, create variations
+      of generated images, and use describe functionality to generate prompts from
+      existing images.
   - aid: midjourney:web-application
     name: Midjourney Web Application
     tags:
@@ -38,7 +37,8 @@ apis:
       - Web Application
       - Creative Tools
       - User Interface
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.example.com
     humanURL: https://www.midjourney.com/
     properties:
@@ -61,7 +61,8 @@ apis:
       - Discord
       - Bot
       - Chat Interface
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.example.com
     humanURL: https://docs.midjourney.com/hc/en-us
     properties:
@@ -79,3 +80,7 @@ common:
   - type: JSON-LD
     url: json-ld/midjourney-context.jsonld
 modified: '2026-03-20'
+description: >-
+  Midjourney is an independent research lab that produces an artificial intelligence
+  program creating images from textual descriptions, accessible primarily through
+  a Discord bot interface.

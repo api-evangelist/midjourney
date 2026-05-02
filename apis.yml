@@ -75,7 +75,7 @@ apis:
 common:
   - type: JSON-LD
     url: json-ld/midjourney-context.jsonld
-modified: '2026-03-20'
+modified: '2026-04-28'
 description: >-
   Midjourney is an independent research lab that produces an artificial intelligence
   program creating images from textual descriptions, accessible primarily through

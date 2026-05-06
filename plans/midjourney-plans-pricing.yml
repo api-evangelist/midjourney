@@ -1,154 +1,160 @@
 specification: API Commons Plans
 specificationVersion: '0.1'
 schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
-provider: midjourney
+provider: Midjourney
 providerId: midjourney
 created: '2026-05-04'
-modified: '2026-05-04'
-tags: []
-description: Machine-readable plans and pricing scaffold for this API provider. Conforms to the API Commons
-  Plans schema. Tier limits and prices are scaffold defaults; replace with provider-published values.
+modified: '2026-05-05'
+reconciled: false
+tags:
+  - AI
+  - Image Generation
+  - Generative AI
+  - Subscription
+description: Midjourney is sold as a tiered consumer subscription (Basic, Standard, Pro, Mega) with
+  Fast GPU minutes and optional Relax (queue) and Stealth (private generations) modes. There is no
+  publicly metered API — generations are produced via the Midjourney web application or Discord bot.
+  Pricing tiers are documented on docs.midjourney.com but the page returns 403 to automated fetches;
+  prices below are not reconciled live and should be confirmed against the live page.
+sources:
+  - https://docs.midjourney.com
+notes: docs.midjourney.com refused automated fetches (403). Reconciliation deferred — confirm tier
+  prices, Fast GPU minutes, Relax mode, and Stealth eligibility from the live plan page.
 plans:
-  - id: midjourney-free
-    name: Free
-    type: freemium
-    description: Free entry tier for the midjourney API surface. Intended for evaluation, prototyping,
-      and low-volume integrations. Real limits and pricing must be reconciled with the provider's published
-      plan documentation.
+  - id: midjourney-basic
+    name: Basic Plan
+    type: subscription
+    description: Entry consumer subscription. Fast GPU minutes only; no unlimited Relax mode.
     entries:
-      - label: API Requests
-        description: Monthly API request quota across all included endpoints
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: 1000
+      - label: Monthly subscription
+        name: basic_monthly
+        type: subscription
+        metric: month
+        limit: -1
         timeFrame: month
         geo: global
-        domains:
-          - https://api.midjourney.com
-          - https://api.example.com
         unit: 1
-        price: '0.00'
-        userMultiplied: false
-      - label: Rate Limit
-        description: Maximum requests per minute on the free tier
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 10
-        timeFrame: minute
+        price: see https://docs.midjourney.com
+        userMultiplied: true
+      - label: Fast GPU minutes
+        name: basic_fast
+        type: quota
+        metric: gpu-minute
+        limit: -1
+        timeFrame: month
         geo: global
-        domains:
-          - https://api.midjourney.com
-          - https://api.example.com
         unit: 1
-        price: '0.00'
-        userMultiplied: false
+        price: included
+        userMultiplied: true
     elements:
-      - name: Public Documentation
-      - name: Community Support
-      - name: Sandbox Access
-      - name: Midjourney Image Generation API
-      - name: Midjourney Web Application
-      - name: Midjourney Discord Bot
+      - name: Fast GPU access
+      - name: Member gallery access
+      - name: Optional usage rights for personal use
+  - id: midjourney-standard
+    name: Standard Plan
+    type: subscription
+    description: Mid-tier consumer subscription with unlimited Relax (queued) generations on top of
+      monthly Fast GPU minutes.
+    entries:
+      - label: Monthly subscription
+        name: standard_monthly
+        type: subscription
+        metric: month
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: see https://docs.midjourney.com
+        userMultiplied: true
+      - label: Fast GPU minutes
+        name: standard_fast
+        type: quota
+        metric: gpu-minute
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: included
+        userMultiplied: true
+      - label: Relax mode
+        name: standard_relax
+        type: quota
+        metric: gpu-minute
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: included
+        userMultiplied: true
+    elements:
+      - name: Fast GPU + Unlimited Relax
+      - name: Commercial usage rights
   - id: midjourney-pro
-    name: Professional
-    type: paid
-    description: Production tier for midjourney. Provides higher quotas, priority support, and access
-      to the broader API portfolio. Pricing placeholder; align with the provider's pricing page.
+    name: Pro Plan
+    type: subscription
+    description: Power-user subscription. Adds Stealth Mode (private generations) on top of higher
+      Fast GPU monthly inclusion.
     entries:
-      - label: API Requests
-        description: Monthly API request quota
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: 100000
-        timeFrame: month
-        geo: global
-        domains:
-          - https://api.midjourney.com
-          - https://api.example.com
-        unit: 1
-        price: TBD
-        userMultiplied: false
-      - label: Rate Limit
-        description: Maximum requests per minute on the professional tier
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 100
-        timeFrame: minute
-        geo: global
-        domains:
-          - https://api.midjourney.com
-          - https://api.example.com
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-      - label: Overage
-        description: Per-request price after monthly quota is exceeded
-        name: overage
-        type: metered
-        metric: requests
+      - label: Monthly subscription
+        name: pro_monthly
+        type: subscription
+        metric: month
         limit: -1
         timeFrame: month
         geo: global
-        domains:
-          - https://api.midjourney.com
-          - https://api.example.com
-        unit: 1000
-        price: TBD
-        userMultiplied: false
-    elements:
-      - name: All Production Endpoints
-      - name: Email Support
-      - name: SLA Targets
-      - name: Webhook Subscriptions
-      - name: Midjourney Image Generation API
-      - name: Midjourney Web Application
-      - name: Midjourney Discord Bot
-  - id: midjourney-enterprise
-    name: Enterprise
-    type: enterprise
-    description: Custom-negotiated tier for midjourney. Includes dedicated capacity, contractual SLAs,
-      security review, data residency options, and named technical account management.
-    entries:
-      - label: API Requests
-        description: Negotiated request volume; -1 indicates uncapped subject to fair use
-        name: api_requests
+        unit: 1
+        price: see https://docs.midjourney.com
+        userMultiplied: true
+      - label: Stealth mode
+        name: pro_stealth
         type: quota
-        metric: requests
+        metric: feature
         limit: -1
         timeFrame: month
-        geo: configurable
-        domains:
-          - https://api.midjourney.com
-          - https://api.example.com
+        geo: global
         unit: 1
-        price: custom
-        userMultiplied: false
-      - label: Rate Limit
-        description: Negotiated burst and steady-state rate
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 1000
-        timeFrame: minute
-        geo: configurable
-        domains:
-          - https://api.midjourney.com
-          - https://api.example.com
-        unit: 1
-        price: custom
-        userMultiplied: false
+        price: included
+        userMultiplied: true
     elements:
-      - name: Unlimited / Negotiated Volume
-      - name: 24/7 Dedicated Support
-      - name: Contractual SLA
-      - name: Security & Compliance Review
-      - name: Dedicated Account Manager
-      - name: Custom Data Residency
-      - name: Midjourney Image Generation API
-      - name: Midjourney Web Application
-      - name: Midjourney Discord Bot
+      - name: Stealth Mode (private generations)
+      - name: Higher concurrent jobs
+      - name: Commercial usage rights
+  - id: midjourney-mega
+    name: Mega Plan
+    type: subscription
+    description: Highest-volume consumer plan. Largest monthly Fast GPU allotment and full Stealth.
+    entries:
+      - label: Monthly subscription
+        name: mega_monthly
+        type: subscription
+        metric: month
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: see https://docs.midjourney.com
+        userMultiplied: true
+    elements:
+      - name: Largest Fast GPU allotment
+      - name: Stealth Mode
+      - name: Higher concurrent jobs
+      - name: Commercial usage rights
+  - id: midjourney-annual-discount
+    name: Annual billing
+    type: subscription
+    description: All consumer plans available with annual billing at a discount (typically 20% off
+      monthly equivalent).
+    entries:
+      - label: Annual discount
+        name: annual_discount
+        type: subscription
+        metric: year
+        limit: -1
+        timeFrame: year
+        geo: global
+        unit: 1
+        price: see https://docs.midjourney.com
+        userMultiplied: true
+    elements:
+      - name: Discount applied to all tiers
 maintainers: []

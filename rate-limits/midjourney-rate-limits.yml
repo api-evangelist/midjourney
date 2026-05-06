@@ -1,92 +1,45 @@
 specification: API Commons Rate Limits
 specificationVersion: '0.1'
 schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
-provider: midjourney
+provider: Midjourney
 providerId: midjourney
 created: '2026-05-04'
-modified: '2026-05-04'
+modified: '2026-05-05'
+reconciled: false
 tags:
   - Rate Limiting
-  - Quotas
-  - Throttling
-description: Machine-readable rate limit definitions for the midjourney API surface. Captures per-tier
-  quotas, burst behavior, response signaling, and recovery semantics. Defaults are scaffold values to
-  be replaced with published provider limits.
-headers:
-  limit: X-RateLimit-Limit
-  remaining: X-RateLimit-Remaining
-  reset: X-RateLimit-Reset
-  retryAfter: Retry-After
-  policy: RateLimit-Policy
-responseCodes:
-  throttled: 429
-  quotaExceeded: 429
-  serviceUnavailable: 503
+  - AI
+  - Image Generation
+description: Midjourney does not currently expose a public, metered HTTP API. Generations are scoped to
+  Discord and the web app and are governed primarily by per-plan Fast GPU minute budgets and concurrent-job
+  caps rather than per-second rate limits. Concurrency limits and Relax-mode queue behavior vary by tier.
+sources:
+  - https://docs.midjourney.com
+notes: docs.midjourney.com refused automated fetches (403). Reconciliation deferred — confirm
+  per-tier concurrent job ceilings and any queue / cooldown rules from the live plan page.
+responseCodes: {}
 limits:
-  - tier: free
-    name: Free Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 10
-    burst: 20
-    timeFrame: minute
-    applies:
-      - Midjourney Image Generation API
-      - Midjourney Web Application
-      - Midjourney Discord Bot
-  - tier: free
-    name: Free Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 1000
+  - name: Fast GPU minutes (monthly)
+    scope: account
+    metric: gpu-minute
+    limit: 'Per-plan; see plan page'
     timeFrame: month
-    applies:
-      - Midjourney Image Generation API
-      - Midjourney Web Application
-      - Midjourney Discord Bot
-  - tier: professional
-    name: Professional Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 100
-    burst: 200
-    timeFrame: minute
-    applies:
-      - Midjourney Image Generation API
-      - Midjourney Web Application
-      - Midjourney Discord Bot
-  - tier: professional
-    name: Professional Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 100000
-    timeFrame: month
-    applies:
-      - Midjourney Image Generation API
-      - Midjourney Web Application
-      - Midjourney Discord Bot
-  - tier: enterprise
-    name: Enterprise Negotiated Limit
-    scope: contract
-    metric: requests_per_minute
-    limit: 1000
-    burst: 5000
-    timeFrame: minute
-    applies:
-      - Midjourney Image Generation API
-      - Midjourney Web Application
-      - Midjourney Discord Bot
+  - name: Concurrent jobs (Fast)
+    scope: account
+    metric: concurrent_requests
+    limit: 'Per-plan; typically 3 (Basic) up to 12+ (Mega) — verify on live docs'
+  - name: Relax mode queue
+    scope: account
+    metric: varies
+    limit: 'Standard / Pro / Mega only; queued behind Fast jobs, no per-minute SLA'
 policies:
-  - name: Backoff Strategy
-    description: Clients should implement exponential backoff with jitter, honoring the Retry-After header
-      when present.
-  - name: Burst Handling
-    description: Short bursts above the steady-state limit are tolerated up to the documented burst ceiling
-      before throttling engages.
-  - name: Quota Reset
-    description: Monthly quotas reset at the start of each calendar month in UTC. Per-minute and per-second
-      windows reset on a sliding-window basis.
-  - name: Fair Use
-    description: Even on uncapped enterprise tiers, sustained usage that materially impacts shared infrastructure
-      may be subject to fair-use throttling.
+  - name: Plan-bound concurrency
+    description: Each tier has a fixed maximum of concurrent Fast jobs; additional generations queue
+      until a slot frees.
+  - name: Relax mode degradation
+    description: Once Fast minutes are exhausted, supported tiers fall back to Relax mode (queued)
+      until the next billing cycle or Fast top-up.
+  - name: Stealth gating
+    description: Stealth Mode is a Pro / Mega entitlement, not a rate limit, but affects which
+      generations are publicly visible.
 maintainers: []

@@ -1,0 +1,323 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Midjourney Image Generation API
+  description: The Midjourney Image Generation API provides programmatic access to Midjourney's AI-powered image generation
+    capabilities. Developers can submit text prompts to generate images, upscale selected outputs to higher resolutions, create
+    variations of generated images, describe existing images to generate prompts, and blend multiple images together. The
+    API uses an asynchronous job-based workflow where image generation requests return a job identifier that can be polled
+    for status and results. Webhook callbacks are supported for real-time job status notifications. Enterprise API access
+    is available
+  tags:
+  - Midjourney
+  - API
+  created: '2026-05-06'
+  modified: '2026-05-06'
+capability:
+  consumes:
+  - type: http
+    namespace: midjourney
+    baseUri: https://api.midjourney.com
+    description: Midjourney Image Generation API HTTP API.
+    authentication:
+      type: bearer
+      token: '{{MIDJOURNEY_TOKEN}}'
+    resources:
+    - name: v1-imagine
+      path: /v1/imagine
+      operations:
+      - name: createimaginejob
+        method: POST
+        description: Generate images from a text prompt
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v1-upscale
+      path: /v1/upscale
+      operations:
+      - name: createupscalejob
+        method: POST
+        description: Upscale a generated image to higher resolution
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v1-variations
+      path: /v1/variations
+      operations:
+      - name: createvariationjob
+        method: POST
+        description: Create variations of a generated image
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v1-describe
+      path: /v1/describe
+      operations:
+      - name: createdescribejob
+        method: POST
+        description: Generate text prompts from an image
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v1-blend
+      path: /v1/blend
+      operations:
+      - name: createblendjob
+        method: POST
+        description: Blend multiple images together
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v1-jobs-jobid
+      path: /v1/jobs/{jobId}
+      operations:
+      - name: getjobstatus
+        method: GET
+        description: Get the status and results of a job
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v1-jobs
+      path: /v1/jobs
+      operations:
+      - name: listjobs
+        method: GET
+        description: List image generation jobs
+        inputParameters:
+        - name: status
+          in: query
+          type: string
+          description: Filter jobs by their current status.
+        - name: limit
+          in: query
+          type: integer
+          description: Maximum number of jobs to return per page.
+        - name: offset
+          in: query
+          type: integer
+          description: Number of jobs to skip for pagination.
+        - name: sort
+          in: query
+          type: string
+          description: Sort order for the returned jobs.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: v1-jobs-jobid-cancel
+      path: /v1/jobs/{jobId}/cancel
+      operations:
+      - name: canceljob
+        method: POST
+        description: Cancel a pending or in-progress job
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  exposes:
+  - type: rest
+    port: 8080
+    namespace: midjourney-rest
+    description: REST adapter for Midjourney Image Generation API.
+    resources:
+    - path: /v1/imagine
+      name: createimaginejob
+      operations:
+      - method: POST
+        name: createimaginejob
+        description: Generate images from a text prompt
+        call: midjourney.createimaginejob
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/upscale
+      name: createupscalejob
+      operations:
+      - method: POST
+        name: createupscalejob
+        description: Upscale a generated image to higher resolution
+        call: midjourney.createupscalejob
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/variations
+      name: createvariationjob
+      operations:
+      - method: POST
+        name: createvariationjob
+        description: Create variations of a generated image
+        call: midjourney.createvariationjob
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/describe
+      name: createdescribejob
+      operations:
+      - method: POST
+        name: createdescribejob
+        description: Generate text prompts from an image
+        call: midjourney.createdescribejob
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/blend
+      name: createblendjob
+      operations:
+      - method: POST
+        name: createblendjob
+        description: Blend multiple images together
+        call: midjourney.createblendjob
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/jobs/{jobId}
+      name: getjobstatus
+      operations:
+      - method: GET
+        name: getjobstatus
+        description: Get the status and results of a job
+        call: midjourney.getjobstatus
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/jobs
+      name: listjobs
+      operations:
+      - method: GET
+        name: listjobs
+        description: List image generation jobs
+        call: midjourney.listjobs
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/jobs/{jobId}/cancel
+      name: canceljob
+      operations:
+      - method: POST
+        name: canceljob
+        description: Cancel a pending or in-progress job
+        call: midjourney.canceljob
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    port: 9090
+    namespace: midjourney-mcp
+    transport: http
+    description: MCP adapter for Midjourney Image Generation API for AI agent use.
+    tools:
+    - name: createimaginejob
+      description: Generate images from a text prompt
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: midjourney.createimaginejob
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: createupscalejob
+      description: Upscale a generated image to higher resolution
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: midjourney.createupscalejob
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: createvariationjob
+      description: Create variations of a generated image
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: midjourney.createvariationjob
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: createdescribejob
+      description: Generate text prompts from an image
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: midjourney.createdescribejob
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: createblendjob
+      description: Blend multiple images together
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: midjourney.createblendjob
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getjobstatus
+      description: Get the status and results of a job
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: midjourney.getjobstatus
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: listjobs
+      description: List image generation jobs
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: midjourney.listjobs
+      with:
+        status: tools.status
+        limit: tools.limit
+        offset: tools.offset
+        sort: tools.sort
+      inputParameters:
+      - name: status
+        type: string
+        description: Filter jobs by their current status.
+      - name: limit
+        type: integer
+        description: Maximum number of jobs to return per page.
+      - name: offset
+        type: integer
+        description: Number of jobs to skip for pagination.
+      - name: sort
+        type: string
+        description: Sort order for the returned jobs.
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: canceljob
+      description: Cancel a pending or in-progress job
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: midjourney.canceljob
+      outputParameters:
+      - type: object
+        mapping: $.
+binds:
+- namespace: env
+  keys:
+    MIDJOURNEY_TOKEN: MIDJOURNEY_TOKEN

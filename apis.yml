@@ -73,7 +73,7 @@ apis:
       variation creation, and image blending, all within the Discord
       messaging platform.
 common:
-  - type: JSON-LD
+  - type: JSONLD
     url: json-ld/midjourney-context.jsonld
 modified: '2026-04-28'
 description: >-

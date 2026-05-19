@@ -1,0 +1,164 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Midjourney Image Generation API — Image Manipulation
+  description: 'Midjourney Image Generation API — Image Manipulation. 3 operations. Lead operation: Blend multiple images
+    together. Self-contained Naftiko capability covering one Midjourney business surface.'
+  tags:
+  - Midjourney
+  - Image Manipulation
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    MIDJOURNEY_API_KEY: MIDJOURNEY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: image-generation-image-manipulation
+    baseUri: https://api.midjourney.com
+    description: Midjourney Image Generation API — Image Manipulation business capability. Self-contained, no shared references.
+    resources:
+    - name: v1-blend
+      path: /v1/blend
+      operations:
+      - name: createblendjob
+        method: POST
+        description: Blend multiple images together
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: v1-upscale
+      path: /v1/upscale
+      operations:
+      - name: createupscalejob
+        method: POST
+        description: Upscale a generated image to higher resolution
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: v1-variations
+      path: /v1/variations
+      operations:
+      - name: createvariationjob
+        method: POST
+        description: Create variations of a generated image
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.MIDJOURNEY_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: image-generation-image-manipulation-rest
+    port: 8080
+    description: REST adapter for Midjourney Image Generation API — Image Manipulation. One Spectral-compliant resource per
+      consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/v1/blend
+      name: v1-blend
+      description: REST surface for v1-blend.
+      operations:
+      - method: POST
+        name: createblendjob
+        description: Blend multiple images together
+        call: image-generation-image-manipulation.createblendjob
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/upscale
+      name: v1-upscale
+      description: REST surface for v1-upscale.
+      operations:
+      - method: POST
+        name: createupscalejob
+        description: Upscale a generated image to higher resolution
+        call: image-generation-image-manipulation.createupscalejob
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/variations
+      name: v1-variations
+      description: REST surface for v1-variations.
+      operations:
+      - method: POST
+        name: createvariationjob
+        description: Create variations of a generated image
+        call: image-generation-image-manipulation.createvariationjob
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: image-generation-image-manipulation-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Midjourney Image Generation API — Image Manipulation. One tool per consumed operation, routed
+      inline through this capability's consumes block.
+    tools:
+    - name: blend-multiple-images-together
+      description: Blend multiple images together
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: image-generation-image-manipulation.createblendjob
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: upscale-generated-image-higher-resolution
+      description: Upscale a generated image to higher resolution
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: image-generation-image-manipulation.createupscalejob
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-variations-generated-image
+      description: Create variations of a generated image
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: image-generation-image-manipulation.createvariationjob
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

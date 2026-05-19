@@ -1,0 +1,80 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Midjourney Image Generation API — Image Generation
+  description: 'Midjourney Image Generation API — Image Generation. 1 operations. Lead operation: Generate images from a text
+    prompt. Self-contained Naftiko capability covering one Midjourney business surface.'
+  tags:
+  - Midjourney
+  - Image Generation
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    MIDJOURNEY_API_KEY: MIDJOURNEY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: image-generation-image-generation
+    baseUri: https://api.midjourney.com
+    description: Midjourney Image Generation API — Image Generation business capability. Self-contained, no shared references.
+    resources:
+    - name: v1-imagine
+      path: /v1/imagine
+      operations:
+      - name: createimaginejob
+        method: POST
+        description: Generate images from a text prompt
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.MIDJOURNEY_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: image-generation-image-generation-rest
+    port: 8080
+    description: REST adapter for Midjourney Image Generation API — Image Generation. One Spectral-compliant resource per
+      consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/v1/imagine
+      name: v1-imagine
+      description: REST surface for v1-imagine.
+      operations:
+      - method: POST
+        name: createimaginejob
+        description: Generate images from a text prompt
+        call: image-generation-image-generation.createimaginejob
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: image-generation-image-generation-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Midjourney Image Generation API — Image Generation. One tool per consumed operation, routed
+      inline through this capability's consumes block.
+    tools:
+    - name: generate-images-text-prompt
+      description: Generate images from a text prompt
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: image-generation-image-generation.createimaginejob
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

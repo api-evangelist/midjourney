@@ -1,0 +1,698 @@
+"""
+Midjourney GraphQL Schema
+Conceptual schema representing Midjourney's AI image generation capabilities,
+covering job management, prompt configuration, image results, Discord integration,
+and subscription/usage tracking.
+"""
+
+# ─── Scalars ───────────────────────────────────────────────────────────────────
+
+scalar DateTime
+scalar URL
+scalar JSON
+
+# ─── Enums ─────────────────────────────────────────────────────────────────────
+
+"""The type of generation job submitted to Midjourney."""
+enum JobType {
+  TEXT_TO_IMAGE
+  VARIATION
+  UPSCALE
+  REMIX
+  BLEND
+  DESCRIBE
+  SHORTEN
+  REROLL
+  ZOOM_OUT
+  PAN
+  INPAINT
+}
+
+"""Current lifecycle state of a generation job."""
+enum JobStatus {
+  QUEUED
+  RUNNING
+  COMPLETED
+  FAILED
+  CANCELLED
+  MODERATED
+}
+
+"""Aspect ratio presets supported by Midjourney."""
+enum AspectRatio {
+  RATIO_1_1
+  RATIO_4_3
+  RATIO_3_4
+  RATIO_16_9
+  RATIO_9_16
+  RATIO_2_3
+  RATIO_3_2
+  RATIO_21_9
+  CUSTOM
+}
+
+"""Midjourney model version selector."""
+enum ModelVersion {
+  V1
+  V2
+  V3
+  V4
+  V5
+  V5_1
+  V5_2
+  V6
+  V6_1
+  NIJI_4
+  NIJI_5
+  NIJI_6
+}
+
+"""Style sub-version within a model family."""
+enum StyleVersion {
+  DEFAULT
+  RAW
+  CUTE
+  EXPRESSIVE
+  ORIGINAL
+  SCENIC
+}
+
+"""Quality level controlling render time vs. detail."""
+enum Quality {
+  QUARTER
+  HALF
+  BASE
+  HIGH
+}
+
+"""Generation speed mode."""
+enum SpeedMode {
+  TURBO
+  FAST
+  RELAX
+}
+
+"""Niji anime-style mode selector."""
+enum NijiMode {
+  CUTE
+  EXPRESSIVE
+  ORIGINAL
+  SCENIC
+  DEFAULT
+}
+
+"""Subscription tier controlling monthly fast-hour allocation."""
+enum SubscriptionTier {
+  FREE
+  BASIC
+  STANDARD
+  PRO
+  MEGA
+}
+
+"""Content policy rating applied to a generated image."""
+enum ImageRating {
+  SAFE
+  SENSITIVE
+  RESTRICTED
+  BLOCKED
+}
+
+"""Upscale resolution multiplier."""
+enum UpscaleLevel {
+  SUBTLE
+  CREATIVE
+  X2
+  X4
+}
+
+"""Direction for pan operations on a generated image."""
+enum PanDirection {
+  LEFT
+  RIGHT
+  UP
+  DOWN
+}
+
+# ─── Core Job Types ────────────────────────────────────────────────────────────
+
+"""Unique identifier for a Midjourney generation job."""
+type JobID {
+  id: ID!
+  shortCode: String
+  createdAt: DateTime!
+}
+
+"""
+A Midjourney generation job encapsulating prompt, parameters, status, and results.
+"""
+type Job {
+  jobId: JobID!
+  jobType: JobType!
+  status: JobStatus!
+  prompt: Prompt
+  parameterSet: ParameterSet
+  result: ImageResult
+  queuePosition: Int
+  createdAt: DateTime!
+  startedAt: DateTime
+  completedAt: DateTime
+  durationMs: Int
+  userId: String
+  channelId: String
+  messageId: String
+  parentJobId: ID
+  isPublic: Boolean!
+  contentRating: ImageRating
+}
+
+"""A text-to-image generation job."""
+type TextToImage {
+  job: Job!
+  textPrompt: TextPrompt!
+  imageWeight: ImageWeight
+  seedValue: SeedValue
+  imageGrid: ImageGrid
+}
+
+"""A variation job derived from a parent image result."""
+type Variation {
+  job: Job!
+  parentJob: Job!
+  variantIndex: Int!
+  variationType: String
+  imageResult: ImageResult
+}
+
+"""An upscale job that increases resolution of a selected image variant."""
+type Upscale {
+  job: Job!
+  parentJob: Job!
+  variantIndex: Int!
+  upscaleLevel: UpscaleLevel!
+  result: UpscaleResult
+}
+
+"""A remix job that regenerates an image with a modified prompt."""
+type Remix {
+  job: Job!
+  parentJob: Job!
+  newPrompt: Prompt!
+  parameterSet: ParameterSet
+  imageResult: ImageResult
+}
+
+"""A blend job combining multiple source images."""
+type Blend {
+  job: Job!
+  sourceImages: [ImageURL!]!
+  dimensions: AspectRatio
+  imageResult: ImageResult
+}
+
+"""
+A describe job that generates textual prompt suggestions from an uploaded image.
+"""
+type Describe {
+  job: Job!
+  sourceImage: ImageURL!
+  suggestedPrompts: [TextPrompt!]
+}
+
+"""A shorten job that condenses a long prompt to its most impactful tokens."""
+type Shorten {
+  job: Job!
+  originalPrompt: TextPrompt!
+  shortenedPrompts: [TextPrompt!]
+  tokenWeights: JSON
+}
+
+# ─── Prompt & Parameter Types ──────────────────────────────────────────────────
+
+"""Full prompt including text content and any image URL references."""
+type Prompt {
+  raw: String!
+  textPrompt: TextPrompt
+  imageURLs: [ImageURL!]
+  parameterSet: ParameterSet
+  parsedTokens: [String!]
+}
+
+"""The textual component of a Midjourney prompt."""
+type TextPrompt {
+  content: String!
+  wordCount: Int
+  estimatedTokens: Int
+}
+
+"""
+Complete set of Midjourney generation parameters attached to a prompt.
+"""
+type ParameterSet {
+  aspectRatio: AspectRatio
+  modelVersion: ModelVersion
+  styleVersion: StyleVersion
+  quality: Quality
+  stylize: Stylize
+  chaos: Chaos
+  noParam: NoParam
+  tile: Tile
+  turbo: Turbo
+  relax: Relax
+  raw: Raw
+  imageWeight: ImageWeight
+  seedValue: SeedValue
+  stop: Stop
+  repeat: Repeat
+  nijiMode: NijiMode
+  panDirection: PanDirection
+  zoomOutLevel: Float
+  weirdness: Int
+  variety: Float
+}
+
+"""Stylize parameter (0–1000) controlling how strongly Midjourney's aesthetic is applied."""
+type Stylize {
+  value: Int!
+  isDefault: Boolean!
+}
+
+"""Chaos parameter (0–100) controlling variation between image grid results."""
+type Chaos {
+  value: Int!
+  isDefault: Boolean!
+}
+
+"""Negative prompt tokens excluded from generation via --no."""
+type NoParam {
+  excludedTerms: [String!]!
+}
+
+"""Tile parameter enabling seamless tiling patterns."""
+type Tile {
+  enabled: Boolean!
+}
+
+"""Turbo speed mode flag for fastest generation at higher GPU cost."""
+type Turbo {
+  enabled: Boolean!
+}
+
+"""Relax speed mode flag for slower generation consuming no fast hours."""
+type Relax {
+  enabled: Boolean!
+}
+
+"""Raw style flag disabling default Midjourney aesthetic post-processing."""
+type Raw {
+  enabled: Boolean!
+}
+
+"""Image weight parameter (0.5–2.0) for image-prompt blending."""
+type ImageWeight {
+  value: Float!
+  isDefault: Boolean!
+}
+
+"""Seed value for reproducible generation results."""
+type SeedValue {
+  value: Int!
+  isRandom: Boolean!
+}
+
+"""Stop parameter (10–100) halting generation at a partial completion percentage."""
+type Stop {
+  percentage: Int!
+}
+
+"""Repeat parameter for generating multiple job runs from one prompt."""
+type Repeat {
+  count: Int!
+}
+
+# ─── Image Result Types ────────────────────────────────────────────────────────
+
+"""The output of a completed generation job."""
+type ImageResult {
+  jobId: ID!
+  imageGrid: ImageGrid
+  variants: [ImageVariant!]
+  seed: Int
+  contentRating: ImageRating
+  createdAt: DateTime!
+}
+
+"""A CDN-hosted URL for a Midjourney generated or source image."""
+type ImageURL {
+  url: URL!
+  mimeType: String
+  fileSizeBytes: Int
+  expiresAt: DateTime
+}
+
+"""The 2x2 grid image produced by a standard generation job."""
+type ImageGrid {
+  url: ImageURL!
+  width: ImageWidth!
+  height: ImageHeight!
+  variantCount: Int!
+}
+
+"""Pixel width of a generated image."""
+type ImageWidth {
+  pixels: Int!
+}
+
+"""Pixel height of a generated image."""
+type ImageHeight {
+  pixels: Int!
+}
+
+"""
+A single variant extracted from an image grid, selectable for upscale or variation.
+"""
+type ImageVariant {
+  index: Int!
+  url: ImageURL!
+  width: ImageWidth!
+  height: ImageHeight!
+  isUpscaled: Boolean!
+}
+
+"""Result of an upscale operation at increased resolution."""
+type UpscaleResult {
+  jobId: ID!
+  url: ImageURL!
+  width: ImageWidth!
+  height: ImageHeight!
+  upscaleLevel: UpscaleLevel!
+  createdAt: DateTime!
+}
+
+# ─── Discord Integration Types ─────────────────────────────────────────────────
+
+"""A Discord server (guild) where Midjourney bot is active."""
+type DiscordGuild {
+  guildId: ID!
+  name: String!
+  iconURL: URL
+  channels: [DiscordChannel!]
+}
+
+"""A Discord channel used for Midjourney bot interactions."""
+type DiscordChannel {
+  channelId: ID!
+  name: String!
+  guild: DiscordGuild!
+  isPrivate: Boolean!
+  rateLimit: RateLimit
+}
+
+"""A Discord message produced by or sent to the Midjourney bot."""
+type DiscordMessage {
+  messageId: ID!
+  channel: DiscordChannel!
+  content: String
+  embeds: [MessageEmbed!]
+  attachments: [MessageAttachment!]
+  createdAt: DateTime!
+  referencedJob: Job
+}
+
+"""A webhook-delivered message payload from Midjourney."""
+type WebhookMessage {
+  webhookId: ID!
+  deliveredAt: DateTime!
+  eventType: String!
+  payload: JSON!
+  job: Job
+  signature: String
+}
+
+"""An embed object within a Discord message."""
+type MessageEmbed {
+  title: String
+  description: String
+  imageURL: URL
+  footerText: String
+  color: Int
+}
+
+"""A file attachment in a Discord message."""
+type MessageAttachment {
+  attachmentId: ID!
+  filename: String!
+  url: URL!
+  contentType: String
+  fileSizeBytes: Int!
+  width: Int
+  height: Int
+}
+
+# ─── Policy & Access Types ─────────────────────────────────────────────────────
+
+"""Content policy configuration governing what Midjourney will generate."""
+type ContentPolicy {
+  version: String!
+  bannedTerms: [String!]
+  requiresSafeMode: Boolean!
+  allowsAdultContent: Boolean!
+  lastUpdated: DateTime!
+}
+
+"""A Midjourney API authentication key."""
+type APIKey {
+  keyId: ID!
+  name: String
+  prefix: String!
+  createdAt: DateTime!
+  expiresAt: DateTime
+  isActive: Boolean!
+  scopes: [String!]!
+}
+
+"""An OAuth or session access token."""
+type Token {
+  tokenId: ID!
+  tokenType: String!
+  expiresAt: DateTime!
+  scopes: [String!]!
+}
+
+"""A Discord bot token used for bot-mode API access."""
+type BotToken {
+  botTokenId: ID!
+  botId: String!
+  prefix: String!
+  isActive: Boolean!
+  createdAt: DateTime!
+}
+
+# ─── Rate Limiting & Queue Types ───────────────────────────────────────────────
+
+"""Rate limit metadata for an API endpoint or Discord channel."""
+type RateLimit {
+  limit: Int!
+  remaining: Int!
+  resetAt: DateTime!
+  retryAfterMs: Int
+}
+
+"""Position and estimated wait for a job in the generation queue."""
+type TaskQueue {
+  queuedJobs: Int!
+  estimatedWaitSeconds: Int!
+  speedMode: SpeedMode!
+  position: Int
+}
+
+# ─── Subscription & Usage Types ────────────────────────────────────────────────
+
+"""A Midjourney subscription plan and its entitlements."""
+type SubscriptionTierDetail {
+  tier: SubscriptionTier!
+  monthlyFastHours: Float!
+  relayModeEnabled: Boolean!
+  concurrentJobs: Int!
+  priceUSDPerMonth: Float!
+  privateGenerations: Boolean!
+  stealth: Boolean!
+}
+
+"""Monthly fast-hour credit balance for a user."""
+type FastHour {
+  totalHours: Float!
+  usedHours: Float!
+  remainingHours: Float!
+  periodStart: DateTime!
+  periodEnd: DateTime!
+}
+
+"""Whether relax (unlimited slow) generation is available."""
+type RelaxMode {
+  enabled: Boolean!
+  queueTime: String
+}
+
+"""Aggregate usage statistics for a user or organization."""
+type Usage {
+  userId: ID!
+  period: String!
+  totalJobs: Int!
+  fastHoursUsed: Float!
+  relaxHoursUsed: Float!
+  imageCount: Int!
+  upscaleCount: Int!
+  monthlyUsage: MonthlyUsage
+}
+
+"""A single job's contribution to usage tracking."""
+type UsageRecord {
+  recordId: ID!
+  jobId: ID!
+  jobType: JobType!
+  fastHoursConsumed: Float!
+  speedMode: SpeedMode!
+  timestamp: DateTime!
+}
+
+"""Aggregated usage totals for a calendar month."""
+type MonthlyUsage {
+  year: Int!
+  month: Int!
+  fastHoursConsumed: Float!
+  relaxHoursConsumed: Float!
+  jobsSubmitted: Int!
+  imagesGenerated: Int!
+  subscriptionTier: SubscriptionTier!
+}
+
+# ─── Root Operations ───────────────────────────────────────────────────────────
+
+type Query {
+  """Retrieve a specific job by its ID."""
+  job(id: ID!): Job
+
+  """List jobs for the authenticated user with optional filters."""
+  jobs(
+    status: JobStatus
+    jobType: JobType
+    limit: Int
+    offset: Int
+  ): [Job!]!
+
+  """Get the current state of the task queue for the authenticated user."""
+  taskQueue: TaskQueue!
+
+  """Retrieve rate limit status for a given resource."""
+  rateLimit(resource: String!): RateLimit
+
+  """Get the authenticated user's current usage summary."""
+  usage: Usage!
+
+  """List monthly usage records."""
+  monthlyUsage(year: Int, month: Int): MonthlyUsage
+
+  """Get the user's fast-hour balance."""
+  fastHours: FastHour!
+
+  """Get relax mode availability for the authenticated user."""
+  relaxMode: RelaxMode!
+
+  """Get the subscription tier details for the authenticated user."""
+  subscription: SubscriptionTierDetail!
+
+  """List all API keys for the authenticated user."""
+  apiKeys: [APIKey!]!
+
+  """Get content policy information."""
+  contentPolicy: ContentPolicy!
+
+  """Retrieve an upscale result by job ID."""
+  upscaleResult(jobId: ID!): UpscaleResult
+
+  """List Discord guilds where the bot is active."""
+  discordGuilds: [DiscordGuild!]!
+
+  """Get a specific Discord channel."""
+  discordChannel(channelId: ID!): DiscordChannel
+}
+
+type Mutation {
+  """Submit a text-to-image generation job."""
+  createTextToImage(
+    prompt: String!
+    aspectRatio: AspectRatio
+    modelVersion: ModelVersion
+    styleVersion: StyleVersion
+    quality: Quality
+    stylize: Int
+    chaos: Int
+    seed: Int
+    noTerms: [String!]
+    imageURLs: [URL!]
+    imageWeight: Float
+    tile: Boolean
+    turbo: Boolean
+    relax: Boolean
+    raw: Boolean
+    niji: NijiMode
+    stop: Int
+    repeat: Int
+    weird: Int
+  ): TextToImage!
+
+  """Create a variation of an existing job's image variant."""
+  createVariation(
+    parentJobId: ID!
+    variantIndex: Int!
+    variationType: String
+  ): Variation!
+
+  """Upscale a specific image variant from a generation job."""
+  createUpscale(
+    parentJobId: ID!
+    variantIndex: Int!
+    upscaleLevel: UpscaleLevel
+  ): Upscale!
+
+  """Remix an image with a modified prompt."""
+  createRemix(
+    parentJobId: ID!
+    newPrompt: String!
+    aspectRatio: AspectRatio
+    modelVersion: ModelVersion
+  ): Remix!
+
+  """Blend multiple images together."""
+  createBlend(
+    imageURLs: [URL!]!
+    dimensions: AspectRatio
+  ): Blend!
+
+  """Describe an image to get prompt suggestions."""
+  createDescribe(imageURL: URL!): Describe!
+
+  """Shorten a long prompt to essential terms."""
+  createShorten(prompt: String!): Shorten!
+
+  """Cancel a queued or running job."""
+  cancelJob(jobId: ID!): Job!
+
+  """Create a new API key."""
+  createAPIKey(name: String!, scopes: [String!]!): APIKey!
+
+  """Revoke an existing API key."""
+  revokeAPIKey(keyId: ID!): Boolean!
+}
+
+type Subscription {
+  """Subscribe to real-time status updates for a specific job."""
+  jobStatusUpdated(jobId: ID!): Job!
+
+  """Subscribe to all job events for the authenticated user."""
+  userJobEvents: Job!
+
+  """Subscribe to queue position changes."""
+  queuePositionChanged: TaskQueue!
+}

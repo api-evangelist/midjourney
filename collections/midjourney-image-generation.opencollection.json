@@ -1,0 +1,198 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Midjourney Image Generation API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Image Generation",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Generate images from a text prompt",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.midjourney.com/v1/imagine",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submits a text prompt to generate a grid of up to four unique images using Midjourney's AI models. The request is processed asynchronously and returns a job identifier that can be used to poll for results or receive updates via webhook. Supports parameters for aspect ratio, model version, quality, stylization, and other generation settings embedded in the prompt string or as separate parameters."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Image Manipulation",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Upscale a generated image to higher resolution",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.midjourney.com/v1/upscale",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Upscales a specific image from a previously generated image grid to a higher resolution. Requires the job identifier of the original generation and the index of the image to upscale (1-4). The upscaled image is produced asynchronously and the result can be retrieved via the job status endpoint or webhook callback."
+        },
+        {
+          "info": {
+            "name": "Create variations of a generated image",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.midjourney.com/v1/variations",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Generates a new grid of image variations based on a specific image from a previously generated grid. Requires the job identifier of the original generation and the index of the image to vary (1-4). Each variation maintains the general style and composition of the source image while introducing creative differences."
+        },
+        {
+          "info": {
+            "name": "Blend multiple images together",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.midjourney.com/v1/blend",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Blends two to five images together to create a new composite image that merges the visual concepts, styles, and compositions of the source images. Images can be provided as URLs or base64-encoded data. An optional text prompt can be included to guide the blending process."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Image Analysis",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Generate text prompts from an image",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.midjourney.com/v1/describe",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Analyzes an uploaded image and generates multiple text prompt suggestions that could be used to recreate a similar image with the imagine endpoint. The image can be provided as a URL or base64-encoded data. Returns up to four prompt suggestions per image."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Jobs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get the status and results of a job",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.midjourney.com/v1/jobs/:jobId",
+            "params": [
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the image generation job."
+              }
+            ]
+          },
+          "docs": "Retrieves the current status, progress, and results of an asynchronous image generation job. Returns the job metadata including status, progress percentage, and when complete, the URLs of the generated images. Poll this endpoint to track job progress when webhooks are not configured."
+        },
+        {
+          "info": {
+            "name": "List image generation jobs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.midjourney.com/v1/jobs",
+            "params": [
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter jobs by their current status."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of jobs to return per page."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of jobs to skip for pagination."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Sort order for the returned jobs."
+              }
+            ]
+          },
+          "docs": "Retrieves a paginated list of image generation jobs for the authenticated account. Jobs can be filtered by status and sorted by creation date. Returns job metadata including status, prompts, and result URLs for completed jobs."
+        },
+        {
+          "info": {
+            "name": "Cancel a pending or in-progress job",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.midjourney.com/v1/jobs/:jobId/cancel",
+            "params": [
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the image generation job."
+              }
+            ]
+          },
+          "docs": "Cancels a job that is currently pending or in progress. Jobs that have already completed or failed cannot be cancelled. Cancelled jobs do not consume generation credits."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

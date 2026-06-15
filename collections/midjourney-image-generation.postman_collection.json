@@ -1,0 +1,1904 @@
+{
+  "item": [
+    {
+      "id": "6195e7ed-1c9d-481e-a1c4-465cbb492306",
+      "name": "Image Analysis",
+      "description": {
+        "content": "Operations for analyzing existing images, including the describe endpoint that generates text prompts from uploaded images.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6e523da5-011f-454c-9518-deb7a52df4c8",
+          "name": "Generate text prompts from an image",
+          "request": {
+            "name": "Generate text prompts from an image",
+            "description": {
+              "content": "Analyzes an uploaded image and generates multiple text prompt suggestions that could be used to recreate a similar image with the imagine endpoint. The image can be provided as a URL or base64-encoded data. Returns up to four prompt suggestions per image.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "describe"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"image_url\": \"<uri>\",\n  \"image_base64\": \"<byte>\",\n  \"webhook_url\": \"<uri>\",\n  \"webhook_type\": \"result\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "da9299f4-ffbf-423c-8d12-9be93b7c5fed",
+              "name": "Describe job successfully created.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "describe"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"image_url\": \"<uri>\",\n  \"image_base64\": \"<byte>\",\n  \"webhook_url\": \"<uri>\",\n  \"webhook_type\": \"result\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"SUCCESS\",\n  \"message\": \"string\",\n  \"data\": {\n    \"job_id\": \"d964beb2-c552-fe18-8b62-a10d19d25ce0\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "52428216-ce0e-4a81-b1e7-028eb09e8b66",
+              "name": "Invalid request. The image URL may be inaccessible or the base64 data malformed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "describe"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"image_url\": \"<uri>\",\n  \"image_base64\": \"<byte>\",\n  \"webhook_url\": \"<uri>\",\n  \"webhook_type\": \"result\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"ERROR\",\n  \"code\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3a020fb7-7756-4f2b-9e27-39f457d13f8c",
+              "name": "Authentication failed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "describe"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"image_url\": \"<uri>\",\n  \"image_base64\": \"<byte>\",\n  \"webhook_url\": \"<uri>\",\n  \"webhook_type\": \"result\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"ERROR\",\n  \"code\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "ee0a748c-d7bc-4105-a64d-bd2209dac604",
+      "name": "Image Generation",
+      "description": {
+        "content": "Operations for generating images from text prompts, including the core imagine endpoint that produces a grid of images from a natural language description.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c23f2969-ee67-4aef-9623-166a0716f425",
+          "name": "Generate images from a text prompt",
+          "request": {
+            "name": "Generate images from a text prompt",
+            "description": {
+              "content": "Submits a text prompt to generate a grid of up to four unique images using Midjourney's AI models. The request is processed asynchronously and returns a job identifier that can be used to poll for results or receive updates via webhook. Supports parameters for aspect ratio, model version, quality, stylization, and other generation settings embedded in the prompt string or as separate parameters.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "imagine"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"prompt\": \"<string>\",\n  \"aspect_ratio\": \"1:1\",\n  \"model_version\": \"<string>\",\n  \"process_mode\": \"fast\",\n  \"quality\": 1,\n  \"stylize\": 100,\n  \"chaos\": 0,\n  \"seed\": \"<integer>\",\n  \"no\": \"<string>\",\n  \"image_url\": \"<uri>\",\n  \"webhook_url\": \"<uri>\",\n  \"webhook_type\": \"result\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "2cbbeda5-c3a8-41cc-8cff-9a3361fc66aa",
+              "name": "Job successfully created. Returns a job identifier for tracking the asynchronous image generation process.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "imagine"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"prompt\": \"<string>\",\n  \"aspect_ratio\": \"1:1\",\n  \"model_version\": \"<string>\",\n  \"process_mode\": \"fast\",\n  \"quality\": 1,\n  \"stylize\": 100,\n  \"chaos\": 0,\n  \"seed\": \"<integer>\",\n  \"no\": \"<string>\",\n  \"image_url\": \"<uri>\",\n  \"webhook_url\": \"<uri>\",\n  \"webhook_type\": \"result\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"SUCCESS\",\n  \"message\": \"string\",\n  \"data\": {\n    \"job_id\": \"d964beb2-c552-fe18-8b62-a10d19d25ce0\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8a3febf4-ebbf-425b-88a6-24102c63eff2",
+              "name": "Invalid request. The prompt may be empty, contain blocked content, or parameters may be malformed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "imagine"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"prompt\": \"<string>\",\n  \"aspect_ratio\": \"1:1\",\n  \"model_version\": \"<string>\",\n  \"process_mode\": \"fast\",\n  \"quality\": 1,\n  \"stylize\": 100,\n  \"chaos\": 0,\n  \"seed\": \"<integer>\",\n  \"no\": \"<string>\",\n  \"image_url\": \"<uri>\",\n  \"webhook_url\": \"<uri>\",\n  \"webhook_type\": \"result\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"ERROR\",\n  \"code\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "394b12e1-f61e-4d2c-8021-d1911ab3f7b9",
+              "name": "Authentication failed. The API key is missing, invalid, or expired.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "imagine"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"prompt\": \"<string>\",\n  \"aspect_ratio\": \"1:1\",\n  \"model_version\": \"<string>\",\n  \"process_mode\": \"fast\",\n  \"quality\": 1,\n  \"stylize\": 100,\n  \"chaos\": 0,\n  \"seed\": \"<integer>\",\n  \"no\": \"<string>\",\n  \"image_url\": \"<uri>\",\n  \"webhook_url\": \"<uri>\",\n  \"webhook_type\": \"result\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"ERROR\",\n  \"code\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d2543a4c-ceed-4eb1-aba3-c1c91d6a94b2",
+              "name": "Rate limit exceeded. Too many requests have been submitted in the current time window.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "imagine"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"prompt\": \"<string>\",\n  \"aspect_ratio\": \"1:1\",\n  \"model_version\": \"<string>\",\n  \"process_mode\": \"fast\",\n  \"quality\": 1,\n  \"stylize\": 100,\n  \"chaos\": 0,\n  \"seed\": \"<integer>\",\n  \"no\": \"<string>\",\n  \"image_url\": \"<uri>\",\n  \"webhook_url\": \"<uri>\",\n  \"webhook_type\": \"result\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"ERROR\",\n  \"code\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "952ee6b4-c01e-4609-9ab9-02d745698ba3",
+      "name": "Image Manipulation",
+      "description": {
+        "content": "Operations for manipulating existing generated images, including upscaling to higher resolutions, creating variations, blending multiple images, and region-based inpainting.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "9352850f-75e6-4724-9140-cc8f2cf7b867",
+          "name": "Upscale a generated image to higher resolution",
+          "request": {
+            "name": "Upscale a generated image to higher resolution",
+            "description": {
+              "content": "Upscales a specific image from a previously generated image grid to a higher resolution. Requires the job identifier of the original generation and the index of the image to upscale (1-4). The upscaled image is produced asynchronously and the result can be retrieved via the job status endpoint or webhook callback.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "upscale"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"job_id\": \"<uuid>\",\n  \"index\": \"<integer>\",\n  \"webhook_url\": \"<uri>\",\n  \"webhook_type\": \"result\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9f520f00-47ef-4c72-a95e-f89df4960050",
+              "name": "Upscale job successfully created. Returns a new job identifier for tracking the upscale operation.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "upscale"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"job_id\": \"<uuid>\",\n  \"index\": \"<integer>\",\n  \"webhook_url\": \"<uri>\",\n  \"webhook_type\": \"result\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"SUCCESS\",\n  \"message\": \"string\",\n  \"data\": {\n    \"job_id\": \"d964beb2-c552-fe18-8b62-a10d19d25ce0\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e5988198-da18-4da5-b548-e6af91b5f85a",
+              "name": "Invalid request. The parent job ID may be invalid or the image index out of range.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "upscale"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"job_id\": \"<uuid>\",\n  \"index\": \"<integer>\",\n  \"webhook_url\": \"<uri>\",\n  \"webhook_type\": \"result\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"ERROR\",\n  \"code\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5c4d132e-518d-4dd5-89ea-bf3876c642f1",
+              "name": "Authentication failed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "upscale"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"job_id\": \"<uuid>\",\n  \"index\": \"<integer>\",\n  \"webhook_url\": \"<uri>\",\n  \"webhook_type\": \"result\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"ERROR\",\n  \"code\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4551ec98-b7e8-4e42-b968-f9ca49ddcb88",
+              "name": "The referenced parent job was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "upscale"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"job_id\": \"<uuid>\",\n  \"index\": \"<integer>\",\n  \"webhook_url\": \"<uri>\",\n  \"webhook_type\": \"result\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"ERROR\",\n  \"code\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f7c4ed70-8559-43fb-8ed1-cdac21d2c6a1",
+          "name": "Create variations of a generated image",
+          "request": {
+            "name": "Create variations of a generated image",
+            "description": {
+              "content": "Generates a new grid of image variations based on a specific image from a previously generated grid. Requires the job identifier of the original generation and the index of the image to vary (1-4). Each variation maintains the general style and composition of the source image while introducing creative differences.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "variations"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"job_id\": \"<uuid>\",\n  \"index\": \"<integer>\",\n  \"webhook_url\": \"<uri>\",\n  \"webhook_type\": \"result\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "cc769d00-a309-4999-9da2-e4a09346c3e0",
+              "name": "Variation job successfully created.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "variations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"job_id\": \"<uuid>\",\n  \"index\": \"<integer>\",\n  \"webhook_url\": \"<uri>\",\n  \"webhook_type\": \"result\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"SUCCESS\",\n  \"message\": \"string\",\n  \"data\": {\n    \"job_id\": \"d964beb2-c552-fe18-8b62-a10d19d25ce0\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d3114a06-1af1-4f45-9f41-f4e3e3549585",
+              "name": "Invalid request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "variations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"job_id\": \"<uuid>\",\n  \"index\": \"<integer>\",\n  \"webhook_url\": \"<uri>\",\n  \"webhook_type\": \"result\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"ERROR\",\n  \"code\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "034da523-29f9-475e-a852-3efd8d2975b6",
+              "name": "Authentication failed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "variations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"job_id\": \"<uuid>\",\n  \"index\": \"<integer>\",\n  \"webhook_url\": \"<uri>\",\n  \"webhook_type\": \"result\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"ERROR\",\n  \"code\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a0d7bd1c-e245-4099-a242-80440633103b",
+              "name": "The referenced parent job was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "variations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"job_id\": \"<uuid>\",\n  \"index\": \"<integer>\",\n  \"webhook_url\": \"<uri>\",\n  \"webhook_type\": \"result\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"ERROR\",\n  \"code\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5e815cf7-f218-4515-95d6-c70b78041b56",
+          "name": "Blend multiple images together",
+          "request": {
+            "name": "Blend multiple images together",
+            "description": {
+              "content": "Blends two to five images together to create a new composite image that merges the visual concepts, styles, and compositions of the source images. Images can be provided as URLs or base64-encoded data. An optional text prompt can be included to guide the blending process.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "blend"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"images\": [\n    {\n      \"url\": \"<uri>\",\n      \"base64\": \"<byte>\"\n    },\n    {\n      \"url\": \"<uri>\",\n      \"base64\": \"<byte>\"\n    }\n  ],\n  \"aspect_ratio\": \"1:1\",\n  \"prompt\": \"<string>\",\n  \"webhook_url\": \"<uri>\",\n  \"webhook_type\": \"result\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "09c1d9aa-4df9-4b60-bfd9-0a6ba71ce045",
+              "name": "Blend job successfully created.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "blend"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"images\": [\n    {\n      \"url\": \"<uri>\",\n      \"base64\": \"<byte>\"\n    },\n    {\n      \"url\": \"<uri>\",\n      \"base64\": \"<byte>\"\n    }\n  ],\n  \"aspect_ratio\": \"1:1\",\n  \"prompt\": \"<string>\",\n  \"webhook_url\": \"<uri>\",\n  \"webhook_type\": \"result\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"SUCCESS\",\n  \"message\": \"string\",\n  \"data\": {\n    \"job_id\": \"d964beb2-c552-fe18-8b62-a10d19d25ce0\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f26713a8-ab90-41ae-9a2f-7432832fdb0e",
+              "name": "Invalid request. At least two images are required and no more than five are allowed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "blend"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"images\": [\n    {\n      \"url\": \"<uri>\",\n      \"base64\": \"<byte>\"\n    },\n    {\n      \"url\": \"<uri>\",\n      \"base64\": \"<byte>\"\n    }\n  ],\n  \"aspect_ratio\": \"1:1\",\n  \"prompt\": \"<string>\",\n  \"webhook_url\": \"<uri>\",\n  \"webhook_type\": \"result\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"ERROR\",\n  \"code\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9ce5d472-d576-4f38-834d-f3d660361b23",
+              "name": "Authentication failed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "blend"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"images\": [\n    {\n      \"url\": \"<uri>\",\n      \"base64\": \"<byte>\"\n    },\n    {\n      \"url\": \"<uri>\",\n      \"base64\": \"<byte>\"\n    }\n  ],\n  \"aspect_ratio\": \"1:1\",\n  \"prompt\": \"<string>\",\n  \"webhook_url\": \"<uri>\",\n  \"webhook_type\": \"result\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"ERROR\",\n  \"code\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "01ebe41e-5988-41d6-b8a8-2acd60e1ca7e",
+      "name": "Jobs",
+      "description": {
+        "content": "Operations for tracking and managing asynchronous image generation jobs, including retrieving job status, results, and listing previous jobs.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "5dc47ce4-bcfa-4f43-80ee-49c33aeeae87",
+          "name": "Get the status and results of a job",
+          "request": {
+            "name": "Get the status and results of a job",
+            "description": {
+              "content": "Retrieves the current status, progress, and results of an asynchronous image generation job. Returns the job metadata including status, progress percentage, and when complete, the URLs of the generated images. Poll this endpoint to track job progress when webhooks are not configured.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "jobs",
+                ":jobId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "jobId",
+                  "description": "(Required) The unique identifier of the image generation job."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "55b595f6-48fd-4eb1-a1f5-4d66507e9717",
+              "name": "Job details retrieved successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "jobs",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "jobId",
+                      "description": "(Required) The unique identifier of the image generation job."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"10346944-4cfb-5b7a-4e98-f1f4eb043b0e\",\n  \"type\": \"describe\",\n  \"status\": \"failed\",\n  \"progress\": 15,\n  \"prompt\": \"string\",\n  \"parameters\": {\n    \"aspect_ratio\": \"string\",\n    \"model_version\": \"string\",\n    \"process_mode\": \"string\",\n    \"quality\": 9228.732330074678,\n    \"stylize\": 429,\n    \"seed\": 8606\n  },\n  \"result\": {\n    \"images\": [\n      {\n        \"url\": \"https://UZVhFfSGDATFvEzlGAvhGBDaRgfIw.bftjoXqXkQ0MVgtb-,sr0myPgnBfdnFWp-3ET5tHA,IKXxp9KvTJL03D+QFQJDo5zjsz5\",\n        \"index\": 1,\n        \"width\": 3340,\n        \"height\": 4475,\n        \"content_type\": \"image/webp\"\n      },\n      {\n        \"url\": \"http://kaOWHkRpoAmWSbmKOCfTQJHJeDXkd.bbgzGHsGhgtYnK\",\n        \"index\": 2,\n        \"width\": 4625,\n        \"height\": 9854,\n        \"content_type\": \"image/webp\"\n      }\n    ],\n    \"prompts\": [\n      \"string\",\n      \"string\"\n    ]\n  },\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  },\n  \"created_at\": \"1998-09-19T22:50:27.353Z\",\n  \"updated_at\": \"1988-12-22T12:12:23.904Z\",\n  \"completed_at\": \"2024-11-02T13:42:53.225Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "72623170-5190-4124-943b-061e5034e8c8",
+              "name": "Authentication failed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "jobs",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "jobId",
+                      "description": "(Required) The unique identifier of the image generation job."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"ERROR\",\n  \"code\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3d0d7122-5cdb-4337-99dc-fbcb8d87a1d7",
+              "name": "Job not found. The job ID may be invalid or the job may have expired.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "jobs",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "jobId",
+                      "description": "(Required) The unique identifier of the image generation job."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"ERROR\",\n  \"code\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d898672a-7490-421b-9c5f-848b2d1789ee",
+          "name": "List image generation jobs",
+          "request": {
+            "name": "List image generation jobs",
+            "description": {
+              "content": "Retrieves a paginated list of image generation jobs for the authenticated account. Jobs can be filtered by status and sorted by creation date. Returns job metadata including status, prompts, and result URLs for completed jobs.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "jobs"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>",
+                  "description": "Filter jobs by their current status."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "25",
+                  "description": "Maximum number of jobs to return per page."
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "0",
+                  "description": "Number of jobs to skip for pagination."
+                },
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "created_at_desc",
+                  "description": "Sort order for the returned jobs."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "61ee945d-d056-4b35-8280-d236950334e0",
+              "name": "List of jobs retrieved successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "jobs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "status",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "25"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "created_at_desc"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"c33702b2-20ab-6204-1f0b-cb713f8a5184\",\n      \"type\": \"blend\",\n      \"status\": \"cancelled\",\n      \"progress\": 77,\n      \"prompt\": \"string\",\n      \"parameters\": {\n        \"aspect_ratio\": \"string\",\n        \"model_version\": \"string\",\n        \"process_mode\": \"string\",\n        \"quality\": 5736.267109506755,\n        \"stylize\": 4988,\n        \"seed\": 117\n      },\n      \"result\": {\n        \"images\": [\n          {\n            \"url\": \"http://BetrbkWpR.tjmcDn\",\n            \"index\": 3,\n            \"width\": 5133,\n            \"height\": 3599,\n            \"content_type\": \"image/png\"\n          },\n          {\n            \"url\": \"http://EDeXyJktZa.czyyo-o78JByJOYLkF\",\n            \"index\": 3,\n            \"width\": 130,\n            \"height\": 7996,\n            \"content_type\": \"image/png\"\n          }\n        ],\n        \"prompts\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      \"error\": {\n        \"code\": \"string\",\n        \"message\": \"string\"\n      },\n      \"created_at\": \"1968-06-11T00:26:06.719Z\",\n      \"updated_at\": \"2002-02-12T08:10:15.688Z\",\n      \"completed_at\": \"2002-02-03T18:20:44.651Z\"\n    },\n    {\n      \"id\": \"43c37b7d-58f0-d2af-c898-c6e47df6ea97\",\n      \"type\": \"variation\",\n      \"status\": \"completed\",\n      \"progress\": 86,\n      \"prompt\": \"string\",\n      \"parameters\": {\n        \"aspect_ratio\": \"string\",\n        \"model_version\": \"string\",\n        \"process_mode\": \"string\",\n        \"quality\": 4072.157066050267,\n        \"stylize\": 1736,\n        \"seed\": 1827\n      },\n      \"result\": {\n        \"images\": [\n          {\n            \"url\": \"http://VdTCQyEOn.jpBju03pz,WgWnK9kgwlPKRVu,HO.9dffXwynrPlT2fj.wvzNj7tFSenAcoL2fgW7hShUGvfW-o2wWz.\",\n            \"index\": 3,\n            \"width\": 8594,\n            \"height\": 922,\n            \"content_type\": \"image/webp\"\n          },\n          {\n            \"url\": \"http://pUljgsVL.tdarH\",\n            \"index\": 1,\n            \"width\": 432,\n            \"height\": 6451,\n            \"content_type\": \"image/png\"\n          }\n        ],\n        \"prompts\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      \"error\": {\n        \"code\": \"string\",\n        \"message\": \"string\"\n      },\n      \"created_at\": \"1994-03-08T07:06:28.464Z\",\n      \"updated_at\": \"1984-09-30T07:50:45.808Z\",\n      \"completed_at\": \"1982-11-01T21:46:51.174Z\"\n    }\n  ],\n  \"total\": 522,\n  \"limit\": 533,\n  \"offset\": 9545\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "408d0df7-8b43-491a-88a3-622cccfc80fe",
+              "name": "Authentication failed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "jobs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "status",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "25"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "created_at_desc"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"ERROR\",\n  \"code\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "37f3945e-b1be-4fff-846e-590693719715",
+          "name": "Cancel a pending or in-progress job",
+          "request": {
+            "name": "Cancel a pending or in-progress job",
+            "description": {
+              "content": "Cancels a job that is currently pending or in progress. Jobs that have already completed or failed cannot be cancelled. Cancelled jobs do not consume generation credits.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "jobs",
+                ":jobId",
+                "cancel"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "jobId",
+                  "description": "(Required) The unique identifier of the image generation job."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "bb4e5d23-d945-4c19-8114-90163f34cced",
+              "name": "Job cancelled successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "jobs",
+                    ":jobId",
+                    "cancel"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "jobId",
+                      "description": "(Required) The unique identifier of the image generation job."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"10346944-4cfb-5b7a-4e98-f1f4eb043b0e\",\n  \"type\": \"describe\",\n  \"status\": \"failed\",\n  \"progress\": 15,\n  \"prompt\": \"string\",\n  \"parameters\": {\n    \"aspect_ratio\": \"string\",\n    \"model_version\": \"string\",\n    \"process_mode\": \"string\",\n    \"quality\": 9228.732330074678,\n    \"stylize\": 429,\n    \"seed\": 8606\n  },\n  \"result\": {\n    \"images\": [\n      {\n        \"url\": \"https://UZVhFfSGDATFvEzlGAvhGBDaRgfIw.bftjoXqXkQ0MVgtb-,sr0myPgnBfdnFWp-3ET5tHA,IKXxp9KvTJL03D+QFQJDo5zjsz5\",\n        \"index\": 1,\n        \"width\": 3340,\n        \"height\": 4475,\n        \"content_type\": \"image/webp\"\n      },\n      {\n        \"url\": \"http://kaOWHkRpoAmWSbmKOCfTQJHJeDXkd.bbgzGHsGhgtYnK\",\n        \"index\": 2,\n        \"width\": 4625,\n        \"height\": 9854,\n        \"content_type\": \"image/webp\"\n      }\n    ],\n    \"prompts\": [\n      \"string\",\n      \"string\"\n    ]\n  },\n  \"error\": {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  },\n  \"created_at\": \"1998-09-19T22:50:27.353Z\",\n  \"updated_at\": \"1988-12-22T12:12:23.904Z\",\n  \"completed_at\": \"2024-11-02T13:42:53.225Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1874347c-006c-443b-af70-7b7275cf1cf0",
+              "name": "Job cannot be cancelled because it has already completed or failed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "jobs",
+                    ":jobId",
+                    "cancel"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "jobId",
+                      "description": "(Required) The unique identifier of the image generation job."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"ERROR\",\n  \"code\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5f5c7f51-280b-41e1-81d6-b6058c437123",
+              "name": "Authentication failed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "jobs",
+                    ":jobId",
+                    "cancel"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "jobId",
+                      "description": "(Required) The unique identifier of the image generation job."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"ERROR\",\n  \"code\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "524c3f95-53e9-4755-93a4-830c10789610",
+              "name": "Job not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "jobs",
+                    ":jobId",
+                    "cancel"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "jobId",
+                      "description": "(Required) The unique identifier of the image generation job."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"ERROR\",\n  \"code\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.midjourney.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "019dac4c-e2b6-475e-89f9-bd50b5521259",
+    "name": "Midjourney Image Generation API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Midjourney Image Generation API provides programmatic access to Midjourney's AI-powered image generation capabilities. Developers can submit text prompts to generate images, upscale selected outputs to higher resolutions, create variations of generated images, describe existing images to generate prompts, and blend multiple images together. The API uses an asynchronous job-based workflow where image generation requests return a job identifier that can be polled for status and results. Webhook callbacks are supported for real-time job status notifications. Enterprise API access is available through the Midjourney Enterprise dashboard.\n\nContact Support:\n Name: Midjourney Support",
+      "type": "text/plain"
+    }
+  }
+}

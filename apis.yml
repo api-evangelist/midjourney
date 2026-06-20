@@ -9,7 +9,7 @@ apis:
   - Generative AI
   - Image Generation
   - Text to Image
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   baseURL: https://api.midjourney.com
   humanURL: https://docs.midjourney.com/
   properties:
@@ -36,7 +36,7 @@ apis:
   - Image Generation
   - User Interface
   - Web Application
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   baseURL: https://api.example.com
   humanURL: https://www.midjourney.com/
   properties:
@@ -57,7 +57,7 @@ apis:
   - Chat Interface
   - Discord
   - Image Generation
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   baseURL: https://api.example.com
   humanURL: https://docs.midjourney.com/hc/en-us
   properties:

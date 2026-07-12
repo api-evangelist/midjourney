@@ -70,6 +70,10 @@ apis:
     generation, image upscaling, variation creation, and image blending, all within
     the Discord messaging platform.
 common:
+- type: DomainSecurity
+  url: security/midjourney-domain-security.yml
+- type: Authentication
+  url: authentication/midjourney-authentication.yml
 - type: GitHubOrganization
   url: https://github.com/midjourney
 - type: LinkedIn

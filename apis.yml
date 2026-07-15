@@ -70,6 +70,8 @@ apis:
     generation, image upscaling, variation creation, and image blending, all within
     the Discord messaging platform.
 common:
+- type: AgenticAccess
+  url: agentic-access/midjourney-agentic-access.yml
 - type: DomainSecurity
   url: security/midjourney-domain-security.yml
 - type: Authentication

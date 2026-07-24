@@ -1,0 +1,262 @@
+openapi: 3.1.0
+info:
+  title: Midjourney Image Generation Image Analysis Image Manipulation API
+  description: The Midjourney Image Generation API provides programmatic access to Midjourney's AI-powered image generation capabilities. Developers can submit text prompts to generate images, upscale selected outputs to higher resolutions, create variations of generated images, describe existing images to generate prompts, and blend multiple images together. The API uses an asynchronous job-based workflow where image generation requests return a job identifier that can be polled for status and results. Webhook callbacks are supported for real-time job status notifications. Enterprise API access is available through the Midjourney Enterprise dashboard.
+  version: 1.0.0
+  contact:
+    name: Midjourney Support
+    url: https://docs.midjourney.com/hc/en-us
+  termsOfService: https://docs.midjourney.com/hc/en-us/articles/32013317003661-Terms-of-Service
+servers:
+- url: https://api.midjourney.com
+  description: Midjourney Production API Server
+security:
+- bearerAuth: []
+tags:
+- name: Image Manipulation
+  description: Operations for manipulating existing generated images, including upscaling to higher resolutions, creating variations, blending multiple images, and region-based inpainting.
+paths:
+  /v1/upscale:
+    post:
+      operationId: createUpscaleJob
+      summary: Upscale a generated image to higher resolution
+      description: Upscales a specific image from a previously generated image grid to a higher resolution. Requires the job identifier of the original generation and the index of the image to upscale (1-4). The upscaled image is produced asynchronously and the result can be retrieved via the job status endpoint or webhook callback.
+      tags:
+      - Image Manipulation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpscaleRequest'
+      responses:
+        '200':
+          description: Upscale job successfully created. Returns a new job identifier for tracking the upscale operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobCreatedResponse'
+        '400':
+          description: Invalid request. The parent job ID may be invalid or the image index out of range.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The referenced parent job was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/variations:
+    post:
+      operationId: createVariationJob
+      summary: Create variations of a generated image
+      description: Generates a new grid of image variations based on a specific image from a previously generated grid. Requires the job identifier of the original generation and the index of the image to vary (1-4). Each variation maintains the general style and composition of the source image while introducing creative differences.
+      tags:
+      - Image Manipulation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VariationRequest'
+      responses:
+        '200':
+          description: Variation job successfully created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobCreatedResponse'
+        '400':
+          description: Invalid request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: The referenced parent job was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/blend:
+    post:
+      operationId: createBlendJob
+      summary: Blend multiple images together
+      description: Blends two to five images together to create a new composite image that merges the visual concepts, styles, and compositions of the source images. Images can be provided as URLs or base64-encoded data. An optional text prompt can be included to guide the blending process.
+      tags:
+      - Image Manipulation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BlendRequest'
+      responses:
+        '200':
+          description: Blend job successfully created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobCreatedResponse'
+        '400':
+          description: Invalid request. At least two images are required and no more than five are allowed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    UpscaleRequest:
+      type: object
+      required:
+      - job_id
+      - index
+      properties:
+        job_id:
+          type: string
+          format: uuid
+          description: The job identifier of the original image generation job containing the image to upscale.
+        index:
+          type: integer
+          description: The index of the image in the generation grid to upscale, from 1 (top-left) to 4 (bottom-right).
+          minimum: 1
+          maximum: 4
+        webhook_url:
+          type: string
+          format: uri
+          description: URL to receive webhook notifications for this upscale job.
+        webhook_type:
+          type: string
+          description: Controls when webhook notifications are sent.
+          enum:
+          - progress
+          - result
+          default: result
+    BlendRequest:
+      type: object
+      required:
+      - images
+      properties:
+        images:
+          type: array
+          description: List of images to blend together. Between two and five images can be provided, each as a URL or base64-encoded data.
+          minItems: 2
+          maxItems: 5
+          items:
+            type: object
+            properties:
+              url:
+                type: string
+                format: uri
+                description: URL of the image to include in the blend.
+              base64:
+                type: string
+                format: byte
+                description: Base64-encoded image data to include in the blend.
+        aspect_ratio:
+          type: string
+          description: The aspect ratio for the blended output image.
+          pattern: ^[0-9]+:[0-9]+$
+          default: '1:1'
+        prompt:
+          type: string
+          description: Optional text prompt to guide the blending process.
+          maxLength: 4000
+        webhook_url:
+          type: string
+          format: uri
+          description: URL to receive webhook notifications for this blend job.
+        webhook_type:
+          type: string
+          description: Controls when webhook notifications are sent.
+          enum:
+          - progress
+          - result
+          default: result
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Indicates the request failed.
+          enum:
+          - ERROR
+        code:
+          type: string
+          description: Machine-readable error code identifying the type of error.
+        message:
+          type: string
+          description: Human-readable description of the error.
+    VariationRequest:
+      type: object
+      required:
+      - job_id
+      - index
+      properties:
+        job_id:
+          type: string
+          format: uuid
+          description: The job identifier of the original image generation job containing the image to create variations from.
+        index:
+          type: integer
+          description: The index of the image in the generation grid to vary, from 1 (top-left) to 4 (bottom-right).
+          minimum: 1
+          maximum: 4
+        webhook_url:
+          type: string
+          format: uri
+          description: URL to receive webhook notifications for this variation job.
+        webhook_type:
+          type: string
+          description: Controls when webhook notifications are sent.
+          enum:
+          - progress
+          - result
+          default: result
+    JobCreatedResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Indicates the request was accepted.
+          enum:
+          - SUCCESS
+        message:
+          type: string
+          description: A human-readable message confirming job creation.
+        data:
+          type: object
+          properties:
+            job_id:
+              type: string
+              format: uuid
+              description: The unique identifier assigned to the created job. Use this ID to poll for status or receive webhook notifications.
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: API Key
+      description: API key obtained from the Midjourney Enterprise dashboard. Include in the Authorization header as a Bearer token.
+externalDocs:
+  description: Midjourney Documentation
+  url: https://docs.midjourney.com/

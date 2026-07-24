@@ -1,0 +1,174 @@
+openapi: 3.1.0
+info:
+  title: Midjourney Image Analysis Image Generation API
+  description: The Midjourney Image Generation API provides programmatic access to Midjourney's AI-powered image generation capabilities. Developers can submit text prompts to generate images, upscale selected outputs to higher resolutions, create variations of generated images, describe existing images to generate prompts, and blend multiple images together. The API uses an asynchronous job-based workflow where image generation requests return a job identifier that can be polled for status and results. Webhook callbacks are supported for real-time job status notifications. Enterprise API access is available through the Midjourney Enterprise dashboard.
+  version: 1.0.0
+  contact:
+    name: Midjourney Support
+    url: https://docs.midjourney.com/hc/en-us
+  termsOfService: https://docs.midjourney.com/hc/en-us/articles/32013317003661-Terms-of-Service
+servers:
+- url: https://api.midjourney.com
+  description: Midjourney Production API Server
+security:
+- bearerAuth: []
+tags:
+- name: Image Generation
+  description: Operations for generating images from text prompts, including the core imagine endpoint that produces a grid of images from a natural language description.
+paths:
+  /v1/imagine:
+    post:
+      operationId: createImagineJob
+      summary: Generate images from a text prompt
+      description: Submits a text prompt to generate a grid of up to four unique images using Midjourney's AI models. The request is processed asynchronously and returns a job identifier that can be used to poll for results or receive updates via webhook. Supports parameters for aspect ratio, model version, quality, stylization, and other generation settings embedded in the prompt string or as separate parameters.
+      tags:
+      - Image Generation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImagineRequest'
+      responses:
+        '200':
+          description: Job successfully created. Returns a job identifier for tracking the asynchronous image generation process.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobCreatedResponse'
+        '400':
+          description: Invalid request. The prompt may be empty, contain blocked content, or parameters may be malformed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication failed. The API key is missing, invalid, or expired.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit exceeded. Too many requests have been submitted in the current time window.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    JobCreatedResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Indicates the request was accepted.
+          enum:
+          - SUCCESS
+        message:
+          type: string
+          description: A human-readable message confirming job creation.
+        data:
+          type: object
+          properties:
+            job_id:
+              type: string
+              format: uuid
+              description: The unique identifier assigned to the created job. Use this ID to poll for status or receive webhook notifications.
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Indicates the request failed.
+          enum:
+          - ERROR
+        code:
+          type: string
+          description: Machine-readable error code identifying the type of error.
+        message:
+          type: string
+          description: Human-readable description of the error.
+    ImagineRequest:
+      type: object
+      required:
+      - prompt
+      properties:
+        prompt:
+          type: string
+          description: The text prompt describing the image to generate. May include Midjourney parameters such as --ar for aspect ratio, --v for model version, --q for quality, and --s for stylization.
+          minLength: 1
+          maxLength: 4000
+        aspect_ratio:
+          type: string
+          description: The aspect ratio for the generated images, expressed as width:height. Common values include 1:1, 16:9, 9:16, 4:3, and 3:2.
+          pattern: ^[0-9]+:[0-9]+$
+          default: '1:1'
+        model_version:
+          type: string
+          description: The Midjourney model version to use for generation.
+          enum:
+          - '5.2'
+          - '6.0'
+          - '6.1'
+          - '7.0'
+        process_mode:
+          type: string
+          description: The processing speed mode for the generation job. Fast mode uses GPU credits, turbo mode uses more credits for faster results, and relax mode queues the job for processing during low-demand periods.
+          enum:
+          - fast
+          - turbo
+          - relax
+          default: fast
+        quality:
+          type: number
+          description: The quality setting for image generation. Higher values produce more detailed images but consume more GPU time.
+          enum:
+          - 0.25
+          - 0.5
+          - 1.0
+          - 2.0
+          default: 1.0
+        stylize:
+          type: integer
+          description: The stylization strength applied during generation. Lower values produce images more closely matching the prompt, while higher values apply more artistic interpretation.
+          minimum: 0
+          maximum: 1000
+          default: 100
+        chaos:
+          type: integer
+          description: Controls the variation between the four generated images. Higher values produce more diverse and unexpected results.
+          minimum: 0
+          maximum: 100
+          default: 0
+        seed:
+          type: integer
+          description: A seed value for reproducible generation. Using the same seed with the same prompt and settings produces similar results.
+          minimum: 0
+          maximum: 4294967295
+        false:
+          type: string
+          description: Negative prompt specifying elements to exclude from the generated image.
+        image_url:
+          type: string
+          format: uri
+          description: URL of a reference image to use as a starting point for generation. The image influences the style and composition of the output.
+        webhook_url:
+          type: string
+          format: uri
+          description: URL to receive webhook notifications when the job status changes. POST requests are sent with the job payload on each status transition.
+        webhook_type:
+          type: string
+          description: Controls when webhook notifications are sent. Use progress for updates on each status change, or result to only receive a notification upon completion or failure.
+          enum:
+          - progress
+          - result
+          default: result
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: API Key
+      description: API key obtained from the Midjourney Enterprise dashboard. Include in the Authorization header as a Bearer token.
+externalDocs:
+  description: Midjourney Documentation
+  url: https://docs.midjourney.com/

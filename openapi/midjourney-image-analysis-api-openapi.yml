@@ -1,0 +1,115 @@
+openapi: 3.1.0
+info:
+  title: Midjourney Image Generation Image Analysis API
+  description: The Midjourney Image Generation API provides programmatic access to Midjourney's AI-powered image generation capabilities. Developers can submit text prompts to generate images, upscale selected outputs to higher resolutions, create variations of generated images, describe existing images to generate prompts, and blend multiple images together. The API uses an asynchronous job-based workflow where image generation requests return a job identifier that can be polled for status and results. Webhook callbacks are supported for real-time job status notifications. Enterprise API access is available through the Midjourney Enterprise dashboard.
+  version: 1.0.0
+  contact:
+    name: Midjourney Support
+    url: https://docs.midjourney.com/hc/en-us
+  termsOfService: https://docs.midjourney.com/hc/en-us/articles/32013317003661-Terms-of-Service
+servers:
+- url: https://api.midjourney.com
+  description: Midjourney Production API Server
+security:
+- bearerAuth: []
+tags:
+- name: Image Analysis
+  description: Operations for analyzing existing images, including the describe endpoint that generates text prompts from uploaded images.
+paths:
+  /v1/describe:
+    post:
+      operationId: createDescribeJob
+      summary: Generate text prompts from an image
+      description: Analyzes an uploaded image and generates multiple text prompt suggestions that could be used to recreate a similar image with the imagine endpoint. The image can be provided as a URL or base64-encoded data. Returns up to four prompt suggestions per image.
+      tags:
+      - Image Analysis
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DescribeRequest'
+      responses:
+        '200':
+          description: Describe job successfully created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobCreatedResponse'
+        '400':
+          description: Invalid request. The image URL may be inaccessible or the base64 data malformed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    JobCreatedResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Indicates the request was accepted.
+          enum:
+          - SUCCESS
+        message:
+          type: string
+          description: A human-readable message confirming job creation.
+        data:
+          type: object
+          properties:
+            job_id:
+              type: string
+              format: uuid
+              description: The unique identifier assigned to the created job. Use this ID to poll for status or receive webhook notifications.
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Indicates the request failed.
+          enum:
+          - ERROR
+        code:
+          type: string
+          description: Machine-readable error code identifying the type of error.
+        message:
+          type: string
+          description: Human-readable description of the error.
+    DescribeRequest:
+      type: object
+      properties:
+        image_url:
+          type: string
+          format: uri
+          description: URL of the image to analyze and generate prompt suggestions for. Either image_url or image_base64 must be provided.
+        image_base64:
+          type: string
+          format: byte
+          description: Base64-encoded image data to analyze. Either image_url or image_base64 must be provided.
+        webhook_url:
+          type: string
+          format: uri
+          description: URL to receive webhook notifications for this describe job.
+        webhook_type:
+          type: string
+          description: Controls when webhook notifications are sent.
+          enum:
+          - progress
+          - result
+          default: result
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: API Key
+      description: API key obtained from the Midjourney Enterprise dashboard. Include in the Authorization header as a Bearer token.
+externalDocs:
+  description: Midjourney Documentation
+  url: https://docs.midjourney.com/

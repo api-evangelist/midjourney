@@ -1,0 +1,309 @@
+openapi: 3.1.0
+info:
+  title: Midjourney Image Generation Image Analysis Jobs API
+  description: The Midjourney Image Generation API provides programmatic access to Midjourney's AI-powered image generation capabilities. Developers can submit text prompts to generate images, upscale selected outputs to higher resolutions, create variations of generated images, describe existing images to generate prompts, and blend multiple images together. The API uses an asynchronous job-based workflow where image generation requests return a job identifier that can be polled for status and results. Webhook callbacks are supported for real-time job status notifications. Enterprise API access is available through the Midjourney Enterprise dashboard.
+  version: 1.0.0
+  contact:
+    name: Midjourney Support
+    url: https://docs.midjourney.com/hc/en-us
+  termsOfService: https://docs.midjourney.com/hc/en-us/articles/32013317003661-Terms-of-Service
+servers:
+- url: https://api.midjourney.com
+  description: Midjourney Production API Server
+security:
+- bearerAuth: []
+tags:
+- name: Jobs
+  description: Operations for tracking and managing asynchronous image generation jobs, including retrieving job status, results, and listing previous jobs.
+paths:
+  /v1/jobs/{jobId}:
+    get:
+      operationId: getJobStatus
+      summary: Get the status and results of a job
+      description: Retrieves the current status, progress, and results of an asynchronous image generation job. Returns the job metadata including status, progress percentage, and when complete, the URLs of the generated images. Poll this endpoint to track job progress when webhooks are not configured.
+      tags:
+      - Jobs
+      parameters:
+      - $ref: '#/components/parameters/jobId'
+      responses:
+        '200':
+          description: Job details retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+        '401':
+          description: Authentication failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Job not found. The job ID may be invalid or the job may have expired.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/jobs:
+    get:
+      operationId: listJobs
+      summary: List image generation jobs
+      description: Retrieves a paginated list of image generation jobs for the authenticated account. Jobs can be filtered by status and sorted by creation date. Returns job metadata including status, prompts, and result URLs for completed jobs.
+      tags:
+      - Jobs
+      parameters:
+      - name: status
+        in: query
+        description: Filter jobs by their current status.
+        required: false
+        schema:
+          type: string
+          enum:
+          - pending
+          - in_progress
+          - completed
+          - failed
+          - cancelled
+      - name: limit
+        in: query
+        description: Maximum number of jobs to return per page.
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 25
+      - name: offset
+        in: query
+        description: Number of jobs to skip for pagination.
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+      - name: sort
+        in: query
+        description: Sort order for the returned jobs.
+        required: false
+        schema:
+          type: string
+          enum:
+          - created_at_asc
+          - created_at_desc
+          default: created_at_desc
+      responses:
+        '200':
+          description: List of jobs retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobListResponse'
+        '401':
+          description: Authentication failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/jobs/{jobId}/cancel:
+    post:
+      operationId: cancelJob
+      summary: Cancel a pending or in-progress job
+      description: Cancels a job that is currently pending or in progress. Jobs that have already completed or failed cannot be cancelled. Cancelled jobs do not consume generation credits.
+      tags:
+      - Jobs
+      parameters:
+      - $ref: '#/components/parameters/jobId'
+      responses:
+        '200':
+          description: Job cancelled successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+        '400':
+          description: Job cannot be cancelled because it has already completed or failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Job not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    GeneratedImage:
+      type: object
+      description: A single generated image with its metadata.
+      properties:
+        url:
+          type: string
+          format: uri
+          description: The URL where the generated image can be downloaded.
+        index:
+          type: integer
+          description: The position of this image in the generation grid (1-4), or null for grid and upscaled images.
+          minimum: 1
+          maximum: 4
+        width:
+          type: integer
+          description: The width of the image in pixels.
+        height:
+          type: integer
+          description: The height of the image in pixels.
+        content_type:
+          type: string
+          description: The MIME type of the image file.
+          enum:
+          - image/png
+          - image/webp
+    JobListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          description: List of jobs matching the query parameters.
+          items:
+            $ref: '#/components/schemas/Job'
+        total:
+          type: integer
+          description: Total number of jobs matching the filter criteria.
+        limit:
+          type: integer
+          description: The maximum number of results per page.
+        offset:
+          type: integer
+          description: The offset used for pagination.
+    Job:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The unique identifier for this job.
+        type:
+          type: string
+          description: The type of image generation operation.
+          enum:
+          - imagine
+          - upscale
+          - variation
+          - describe
+          - blend
+        status:
+          type: string
+          description: The current processing status of the job.
+          enum:
+          - pending
+          - in_progress
+          - completed
+          - failed
+          - cancelled
+        progress:
+          type: integer
+          description: The completion progress as a percentage from 0 to 100.
+          minimum: 0
+          maximum: 100
+        prompt:
+          type: string
+          description: The text prompt used for this generation job.
+        parameters:
+          type: object
+          description: The generation parameters used for this job, including aspect ratio, model version, and quality settings.
+          properties:
+            aspect_ratio:
+              type: string
+              description: The aspect ratio used for generation.
+            model_version:
+              type: string
+              description: The Midjourney model version used.
+            process_mode:
+              type: string
+              description: The processing speed mode used.
+            quality:
+              type: number
+              description: The quality setting used.
+            stylize:
+              type: integer
+              description: The stylization value used.
+            seed:
+              type: integer
+              description: The seed value used for generation.
+        result:
+          $ref: '#/components/schemas/JobResult'
+        error:
+          type: object
+          description: Error details if the job failed.
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code.
+            message:
+              type: string
+              description: Human-readable error description.
+        created_at:
+          type: string
+          format: date-time
+          description: ISO 8601 timestamp when the job was created.
+        updated_at:
+          type: string
+          format: date-time
+          description: ISO 8601 timestamp when the job was last updated.
+        completed_at:
+          type: string
+          format: date-time
+          description: ISO 8601 timestamp when the job completed, if applicable.
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Indicates the request failed.
+          enum:
+          - ERROR
+        code:
+          type: string
+          description: Machine-readable error code identifying the type of error.
+        message:
+          type: string
+          description: Human-readable description of the error.
+    JobResult:
+      type: object
+      description: The output of a completed image generation job.
+      properties:
+        images:
+          type: array
+          description: List of generated image URLs. For imagine jobs this contains the grid image and individual image URLs. For upscale jobs this contains the single upscaled image.
+          items:
+            $ref: '#/components/schemas/GeneratedImage'
+        prompts:
+          type: array
+          description: List of generated prompt suggestions. Only present for describe job results.
+          items:
+            type: string
+  parameters:
+    jobId:
+      name: jobId
+      in: path
+      required: true
+      description: The unique identifier of the image generation job.
+      schema:
+        type: string
+        format: uuid
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: API Key
+      description: API key obtained from the Midjourney Enterprise dashboard. Include in the Authorization header as a Bearer token.
+externalDocs:
+  description: Midjourney Documentation
+  url: https://docs.midjourney.com/

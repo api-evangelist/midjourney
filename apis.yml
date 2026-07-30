@@ -1,33 +1,20 @@
 aid: midjourney
+accessModel:
+  pricing: paid
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Paid · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/midjourney.png
 url: https://raw.githubusercontent.com/api-evangelist/midjourney/refs/heads/main/apis.yml
 apis:
-- aid: midjourney:image-generation-api
-  name: Midjourney Image Generation API
-  tags:
-  - AI
-  - Creative Tools
-  - Generative AI
-  - Image Generation
-  - Text to Image
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  baseURL: https://api.midjourney.com
-  humanURL: https://docs.midjourney.com/
-  properties:
-  - url: https://docs.midjourney.com/
-    type: Documentation
-  - url: openapi/midjourney-image-generation-openapi.yml
-    type: OpenAPI
-  - url: asyncapi/midjourney-image-generation-asyncapi.yml
-    type: AsyncAPI
-  - url: json-schema/midjourney-image-generation-job-schema.json
-    type: JSONSchema
-  - url: graphql/midjourney-graphql.md
-    type: GraphQL
-  description: The Midjourney Image Generation API provides programmatic access to
-    Midjourney's AI-powered image generation capabilities. Developers can submit text
-    prompts to generate images, upscale selected outputs to higher resolutions, create
-    variations of generated images, and use describe functionality to generate prompts
-    from existing images.
 - aid: midjourney:web-application
   name: Midjourney Web Application
   tags:
@@ -42,13 +29,12 @@ apis:
   properties:
   - url: https://docs.midjourney.com/
     type: Documentation
-  description: The Midjourney Web Application provides a browser-based interface for
-    generating AI images using text prompts. Users can create images, explore a gallery
-    of community creations, manage their generated image library, and access advanced
-    features such as image editing, blending, and variation generation. The web application
-    serves as the primary interface for interacting with Midjourney's generative AI
-    models, complementing the original Discord-based experience with a dedicated creative
-    workspace.
+  description: >-
+    The Midjourney Web Application provides a browser-based interface for generating AI images using text
+    prompts. Users can create images, explore a gallery of community creations, manage their generated
+    image library, and access advanced features such as image editing, blending, and variation generation.
+    The web application serves as the primary interface for interacting with Midjourney's generative AI
+    models, complementing the original Discord-based experience with a dedicated creative workspace.
 - aid: midjourney:discord-bot
   name: Midjourney Discord Bot
   tags:
@@ -63,12 +49,92 @@ apis:
   properties:
   - url: https://docs.midjourney.com/hc/en-us
     type: Documentation
-  description: The Midjourney Discord Bot is the original interface for accessing
-    Midjourney's AI image generation service. Users interact with the bot through
-    Discord slash commands such as /imagine, /blend, /describe, and /shorten to generate
-    and manipulate AI-created images. The bot supports features including text-to-image
-    generation, image upscaling, variation creation, and image blending, all within
-    the Discord messaging platform.
+  description: >-
+    The Midjourney Discord Bot is the original interface for accessing Midjourney's AI image generation
+    service. Users interact with the bot through Discord slash commands such as /imagine, /blend, /describe,
+    and /shorten to generate and manipulate AI-created images. The bot supports features including text-to-image
+    generation, image upscaling, variation creation, and image blending, all within the Discord messaging
+    platform.
+- aid: midjourney:midjourney-image-analysis-api
+  name: midjourney Image Analysis API
+  description: >-
+    Operations for analyzing existing images, including the describe endpoint that generates text prompts
+    from uploaded images.
+  humanURL: https://docs.midjourney.com/
+  baseURL: https://api.midjourney.com
+  tags:
+  - Image Analysis
+  properties:
+  - type: OpenAPI
+    url: openapi/midjourney-image-analysis-api-openapi.yml
+  - type: Documentation
+    url: https://docs.midjourney.com/
+  - type: AsyncAPI
+    url: asyncapi/midjourney-image-generation-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/midjourney-image-generation-job-schema.json
+  - type: GraphQL
+    url: graphql/midjourney-graphql.md
+- aid: midjourney:midjourney-image-generation-api
+  name: midjourney Image Generation API
+  description: >-
+    Operations for generating images from text prompts, including the core imagine endpoint that produces
+    a grid of images from a natural language description.
+  humanURL: https://docs.midjourney.com/
+  baseURL: https://api.midjourney.com
+  tags:
+  - Image Generation
+  properties:
+  - type: OpenAPI
+    url: openapi/midjourney-image-generation-api-openapi.yml
+  - type: Documentation
+    url: https://docs.midjourney.com/
+  - type: AsyncAPI
+    url: asyncapi/midjourney-image-generation-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/midjourney-image-generation-job-schema.json
+  - type: GraphQL
+    url: graphql/midjourney-graphql.md
+- aid: midjourney:midjourney-image-manipulation-api
+  name: midjourney Image Manipulation API
+  description: >-
+    Operations for manipulating existing generated images, including upscaling to higher resolutions,
+    creating variations, blending multiple images, and region-based inpainting.
+  humanURL: https://docs.midjourney.com/
+  baseURL: https://api.midjourney.com
+  tags:
+  - Image Manipulation
+  properties:
+  - type: OpenAPI
+    url: openapi/midjourney-image-manipulation-api-openapi.yml
+  - type: Documentation
+    url: https://docs.midjourney.com/
+  - type: AsyncAPI
+    url: asyncapi/midjourney-image-generation-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/midjourney-image-generation-job-schema.json
+  - type: GraphQL
+    url: graphql/midjourney-graphql.md
+- aid: midjourney:midjourney-jobs-api
+  name: midjourney Jobs API
+  description: >-
+    Operations for tracking and managing asynchronous image generation jobs, including retrieving job
+    status, results, and listing previous jobs.
+  humanURL: https://docs.midjourney.com/
+  baseURL: https://api.midjourney.com
+  tags:
+  - Jobs
+  properties:
+  - type: OpenAPI
+    url: openapi/midjourney-jobs-api-openapi.yml
+  - type: Documentation
+    url: https://docs.midjourney.com/
+  - type: AsyncAPI
+    url: asyncapi/midjourney-image-generation-asyncapi.yml
+  - type: JSONSchema
+    url: json-schema/midjourney-image-generation-job-schema.json
+  - type: GraphQL
+    url: graphql/midjourney-graphql.md
 common:
 - type: AgenticAccess
   url: agentic-access/midjourney-agentic-access.yml

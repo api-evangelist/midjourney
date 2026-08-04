@@ -1,0 +1,20 @@
+{
+  "provider": "midjourney",
+  "sources": [
+    "midjourney-image-analysis-api-openapi.yml",
+    "midjourney-image-generation-api-openapi.yml",
+    "midjourney-image-manipulation-api-openapi.yml",
+    "midjourney-jobs-api-openapi.yml"
+  ],
+  "outputs": [
+    "midjourney-image-analysis-api-openapi.yml",
+    "midjourney-image-generation-api-openapi.yml",
+    "midjourney-image-manipulation-api-openapi.yml",
+    "midjourney-jobs-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

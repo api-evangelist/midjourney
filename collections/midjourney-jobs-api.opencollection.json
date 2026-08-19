@@ -1,0 +1,99 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Midjourney Image Generation Image Analysis Jobs API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Jobs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get the status and results of a job",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.midjourney.com/v1/jobs/:jobId",
+            "params": [
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the image generation job."
+              }
+            ]
+          },
+          "docs": "Retrieves the current status, progress, and results of an asynchronous image generation job. Returns the job metadata including status, progress percentage, and when complete, the URLs of the generated images. Poll this endpoint to track job progress when webhooks are not configured."
+        },
+        {
+          "info": {
+            "name": "List image generation jobs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.midjourney.com/v1/jobs",
+            "params": [
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter jobs by their current status."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of jobs to return per page."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of jobs to skip for pagination."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Sort order for the returned jobs."
+              }
+            ]
+          },
+          "docs": "Retrieves a paginated list of image generation jobs for the authenticated account. Jobs can be filtered by status and sorted by creation date. Returns job metadata including status, prompts, and result URLs for completed jobs."
+        },
+        {
+          "info": {
+            "name": "Cancel a pending or in-progress job",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.midjourney.com/v1/jobs/:jobId/cancel",
+            "params": [
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the image generation job."
+              }
+            ]
+          },
+          "docs": "Cancels a job that is currently pending or in progress. Jobs that have already completed or failed cannot be cancelled. Cancelled jobs do not consume generation credits."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

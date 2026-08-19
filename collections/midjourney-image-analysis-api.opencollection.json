@@ -1,0 +1,39 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Midjourney Image Generation Image Analysis API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Image Analysis",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Generate text prompts from an image",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.midjourney.com/v1/describe",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Analyzes an uploaded image and generates multiple text prompt suggestions that could be used to recreate a similar image with the imagine endpoint. The image can be provided as a URL or base64-encoded data. Returns up to four prompt suggestions per image."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,760 @@
+{
+  "item": [
+    {
+      "id": "0a5be3c7-8738-43a3-b915-ff6669f4159d",
+      "name": "Image Manipulation",
+      "description": {
+        "content": "Operations for manipulating existing generated images, including upscaling to higher resolutions, creating variations, blending multiple images, and region-based inpainting.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "4bc30c49-89c5-4d04-ba66-42e806035eca",
+          "name": "Upscale a generated image to higher resolution",
+          "request": {
+            "name": "Upscale a generated image to higher resolution",
+            "description": {
+              "content": "Upscales a specific image from a previously generated image grid to a higher resolution. Requires the job identifier of the original generation and the index of the image to upscale (1-4). The upscaled image is produced asynchronously and the result can be retrieved via the job status endpoint or webhook callback.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "upscale"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"job_id\": \"<uuid>\",\n  \"index\": \"<integer>\",\n  \"webhook_url\": \"<uri>\",\n  \"webhook_type\": \"result\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "cc824018-65be-4251-848e-e8b8b06a9b84",
+              "name": "Upscale job successfully created. Returns a new job identifier for tracking the upscale operation.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "upscale"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"job_id\": \"<uuid>\",\n  \"index\": \"<integer>\",\n  \"webhook_url\": \"<uri>\",\n  \"webhook_type\": \"result\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"SUCCESS\",\n  \"message\": \"string\",\n  \"data\": {\n    \"job_id\": \"b1c06212-7865-f57f-0e71-2387f65f9b0c\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c6f4ef15-254a-468c-b088-a8556c761138",
+              "name": "Invalid request. The parent job ID may be invalid or the image index out of range.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "upscale"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"job_id\": \"<uuid>\",\n  \"index\": \"<integer>\",\n  \"webhook_url\": \"<uri>\",\n  \"webhook_type\": \"result\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"ERROR\",\n  \"code\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6cc4dab3-b264-4b45-b4fc-ba041139bf14",
+              "name": "Authentication failed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "upscale"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"job_id\": \"<uuid>\",\n  \"index\": \"<integer>\",\n  \"webhook_url\": \"<uri>\",\n  \"webhook_type\": \"result\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"ERROR\",\n  \"code\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fb62b1e0-6374-4643-8ef0-8a99f9f470f8",
+              "name": "The referenced parent job was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "upscale"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"job_id\": \"<uuid>\",\n  \"index\": \"<integer>\",\n  \"webhook_url\": \"<uri>\",\n  \"webhook_type\": \"result\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"ERROR\",\n  \"code\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5ebabea3-3feb-470d-b2c0-9a97c0bc1d00",
+          "name": "Create variations of a generated image",
+          "request": {
+            "name": "Create variations of a generated image",
+            "description": {
+              "content": "Generates a new grid of image variations based on a specific image from a previously generated grid. Requires the job identifier of the original generation and the index of the image to vary (1-4). Each variation maintains the general style and composition of the source image while introducing creative differences.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "variations"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"job_id\": \"<uuid>\",\n  \"index\": \"<integer>\",\n  \"webhook_url\": \"<uri>\",\n  \"webhook_type\": \"result\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "1b5593b5-e990-4b47-930e-eb0e823c63b1",
+              "name": "Variation job successfully created.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "variations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"job_id\": \"<uuid>\",\n  \"index\": \"<integer>\",\n  \"webhook_url\": \"<uri>\",\n  \"webhook_type\": \"result\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"SUCCESS\",\n  \"message\": \"string\",\n  \"data\": {\n    \"job_id\": \"b1c06212-7865-f57f-0e71-2387f65f9b0c\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "75777c2f-d2a3-4dce-8241-0065c6cae8eb",
+              "name": "Invalid request.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "variations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"job_id\": \"<uuid>\",\n  \"index\": \"<integer>\",\n  \"webhook_url\": \"<uri>\",\n  \"webhook_type\": \"result\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"ERROR\",\n  \"code\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "63217750-111b-45e7-9b8d-232d96080fb3",
+              "name": "Authentication failed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "variations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"job_id\": \"<uuid>\",\n  \"index\": \"<integer>\",\n  \"webhook_url\": \"<uri>\",\n  \"webhook_type\": \"result\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"ERROR\",\n  \"code\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e2b5c611-c006-4629-bb23-3189952ba23e",
+              "name": "The referenced parent job was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "variations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"job_id\": \"<uuid>\",\n  \"index\": \"<integer>\",\n  \"webhook_url\": \"<uri>\",\n  \"webhook_type\": \"result\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"ERROR\",\n  \"code\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b4dde8e1-7b06-41ba-bec0-7a477c445019",
+          "name": "Blend multiple images together",
+          "request": {
+            "name": "Blend multiple images together",
+            "description": {
+              "content": "Blends two to five images together to create a new composite image that merges the visual concepts, styles, and compositions of the source images. Images can be provided as URLs or base64-encoded data. An optional text prompt can be included to guide the blending process.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "blend"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"images\": [\n    {\n      \"url\": \"<uri>\",\n      \"base64\": \"<byte>\"\n    },\n    {\n      \"url\": \"<uri>\",\n      \"base64\": \"<byte>\"\n    }\n  ],\n  \"aspect_ratio\": \"1:1\",\n  \"prompt\": \"<string>\",\n  \"webhook_url\": \"<uri>\",\n  \"webhook_type\": \"result\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ad114e67-2fc5-4c33-8325-b313d6b25065",
+              "name": "Blend job successfully created.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "blend"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"images\": [\n    {\n      \"url\": \"<uri>\",\n      \"base64\": \"<byte>\"\n    },\n    {\n      \"url\": \"<uri>\",\n      \"base64\": \"<byte>\"\n    }\n  ],\n  \"aspect_ratio\": \"1:1\",\n  \"prompt\": \"<string>\",\n  \"webhook_url\": \"<uri>\",\n  \"webhook_type\": \"result\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"SUCCESS\",\n  \"message\": \"string\",\n  \"data\": {\n    \"job_id\": \"b1c06212-7865-f57f-0e71-2387f65f9b0c\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0a052540-163c-4d57-97b3-5dadfc6e7d50",
+              "name": "Invalid request. At least two images are required and no more than five are allowed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "blend"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"images\": [\n    {\n      \"url\": \"<uri>\",\n      \"base64\": \"<byte>\"\n    },\n    {\n      \"url\": \"<uri>\",\n      \"base64\": \"<byte>\"\n    }\n  ],\n  \"aspect_ratio\": \"1:1\",\n  \"prompt\": \"<string>\",\n  \"webhook_url\": \"<uri>\",\n  \"webhook_type\": \"result\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"ERROR\",\n  \"code\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a7c93bea-070c-430d-b39c-94a6b62c092d",
+              "name": "Authentication failed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "blend"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"images\": [\n    {\n      \"url\": \"<uri>\",\n      \"base64\": \"<byte>\"\n    },\n    {\n      \"url\": \"<uri>\",\n      \"base64\": \"<byte>\"\n    }\n  ],\n  \"aspect_ratio\": \"1:1\",\n  \"prompt\": \"<string>\",\n  \"webhook_url\": \"<uri>\",\n  \"webhook_type\": \"result\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"ERROR\",\n  \"code\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.midjourney.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "7858dc21-b5c3-404d-85b7-554f3886e51b",
+    "name": "Midjourney Image Generation Image Analysis Image Manipulation API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Midjourney Image Generation API provides programmatic access to Midjourney's AI-powered image generation capabilities. Developers can submit text prompts to generate images, upscale selected outputs to higher resolutions, create variations of generated images, describe existing images to generate prompts, and blend multiple images together. The API uses an asynchronous job-based workflow where image generation requests return a job identifier that can be polled for status and results. Webhook callbacks are supported for real-time job status notifications. Enterprise API access is available through the Midjourney Enterprise dashboard.\n\nContact Support:\n Name: Midjourney Support",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Midjourney Image Generation Image Analysis Image Manipulation API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Image Manipulation",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Upscale a generated image to higher resolution",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.midjourney.com/v1/upscale",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Upscales a specific image from a previously generated image grid to a higher resolution. Requires the job identifier of the original generation and the index of the image to upscale (1-4). The upscaled image is produced asynchronously and the result can be retrieved via the job status endpoint or webhook callback."
+        },
+        {
+          "info": {
+            "name": "Create variations of a generated image",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.midjourney.com/v1/variations",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Generates a new grid of image variations based on a specific image from a previously generated grid. Requires the job identifier of the original generation and the index of the image to vary (1-4). Each variation maintains the general style and composition of the source image while introducing creative differences."
+        },
+        {
+          "info": {
+            "name": "Blend multiple images together",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.midjourney.com/v1/blend",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Blends two to five images together to create a new composite image that merges the visual concepts, styles, and compositions of the source images. Images can be provided as URLs or base64-encoded data. An optional text prompt can be included to guide the blending process."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

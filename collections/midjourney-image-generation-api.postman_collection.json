@@ -1,0 +1,298 @@
+{
+  "item": [
+    {
+      "id": "30c3306c-9515-49a2-94d4-53b7ed9ff9eb",
+      "name": "Image Generation",
+      "description": {
+        "content": "Operations for generating images from text prompts, including the core imagine endpoint that produces a grid of images from a natural language description.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "a106ec79-6917-409c-892a-2452f87503d2",
+          "name": "Generate images from a text prompt",
+          "request": {
+            "name": "Generate images from a text prompt",
+            "description": {
+              "content": "Submits a text prompt to generate a grid of up to four unique images using Midjourney's AI models. The request is processed asynchronously and returns a job identifier that can be used to poll for results or receive updates via webhook. Supports parameters for aspect ratio, model version, quality, stylization, and other generation settings embedded in the prompt string or as separate parameters.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "imagine"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"prompt\": \"<string>\",\n  \"aspect_ratio\": \"1:1\",\n  \"model_version\": \"<string>\",\n  \"process_mode\": \"fast\",\n  \"quality\": 1,\n  \"stylize\": 100,\n  \"chaos\": 0,\n  \"seed\": \"<integer>\",\n  \"false\": \"<string>\",\n  \"image_url\": \"<uri>\",\n  \"webhook_url\": \"<uri>\",\n  \"webhook_type\": \"result\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "aefd9054-46d3-4ff2-8c3b-001f994f0aa5",
+              "name": "Job successfully created. Returns a job identifier for tracking the asynchronous image generation process.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "imagine"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"prompt\": \"<string>\",\n  \"aspect_ratio\": \"1:1\",\n  \"model_version\": \"<string>\",\n  \"process_mode\": \"fast\",\n  \"quality\": 1,\n  \"stylize\": 100,\n  \"chaos\": 0,\n  \"seed\": \"<integer>\",\n  \"false\": \"<string>\",\n  \"image_url\": \"<uri>\",\n  \"webhook_url\": \"<uri>\",\n  \"webhook_type\": \"result\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"SUCCESS\",\n  \"message\": \"string\",\n  \"data\": {\n    \"job_id\": \"0c5a587e-71ed-bdb9-dde2-4dd1a1d0dfc6\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5e2c7b99-e43a-4ac5-9017-63c88c8d14aa",
+              "name": "Invalid request. The prompt may be empty, contain blocked content, or parameters may be malformed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "imagine"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"prompt\": \"<string>\",\n  \"aspect_ratio\": \"1:1\",\n  \"model_version\": \"<string>\",\n  \"process_mode\": \"fast\",\n  \"quality\": 1,\n  \"stylize\": 100,\n  \"chaos\": 0,\n  \"seed\": \"<integer>\",\n  \"false\": \"<string>\",\n  \"image_url\": \"<uri>\",\n  \"webhook_url\": \"<uri>\",\n  \"webhook_type\": \"result\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"ERROR\",\n  \"code\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f6139a68-8e5a-4529-af68-086798346795",
+              "name": "Authentication failed. The API key is missing, invalid, or expired.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "imagine"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"prompt\": \"<string>\",\n  \"aspect_ratio\": \"1:1\",\n  \"model_version\": \"<string>\",\n  \"process_mode\": \"fast\",\n  \"quality\": 1,\n  \"stylize\": 100,\n  \"chaos\": 0,\n  \"seed\": \"<integer>\",\n  \"false\": \"<string>\",\n  \"image_url\": \"<uri>\",\n  \"webhook_url\": \"<uri>\",\n  \"webhook_type\": \"result\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"ERROR\",\n  \"code\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "19a08270-8aae-4c7f-b659-d0aeece2a7b4",
+              "name": "Rate limit exceeded. Too many requests have been submitted in the current time window.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "imagine"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"prompt\": \"<string>\",\n  \"aspect_ratio\": \"1:1\",\n  \"model_version\": \"<string>\",\n  \"process_mode\": \"fast\",\n  \"quality\": 1,\n  \"stylize\": 100,\n  \"chaos\": 0,\n  \"seed\": \"<integer>\",\n  \"false\": \"<string>\",\n  \"image_url\": \"<uri>\",\n  \"webhook_url\": \"<uri>\",\n  \"webhook_type\": \"result\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"ERROR\",\n  \"code\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.midjourney.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "3cb9f5e0-48ac-4c9c-a920-3a0ccc7e9c2e",
+    "name": "Midjourney Image Analysis Image Generation API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Midjourney Image Generation API provides programmatic access to Midjourney's AI-powered image generation capabilities. Developers can submit text prompts to generate images, upscale selected outputs to higher resolutions, create variations of generated images, describe existing images to generate prompts, and blend multiple images together. The API uses an asynchronous job-based workflow where image generation requests return a job identifier that can be polled for status and results. Webhook callbacks are supported for real-time job status notifications. Enterprise API access is available through the Midjourney Enterprise dashboard.\n\nContact Support:\n Name: Midjourney Support",
+      "type": "text/plain"
+    }
+  }
+}

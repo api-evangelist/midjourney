@@ -19,6 +19,12 @@ apis:
 - aid: midjourney:web-application
   name: Midjourney Web Application
   tags:
+  - Artificial Intelligence
+  - Creative Tools
+  - Image-Generation
+  - User Interface
+  - Web Application
+  tags_raw:
   - AI
   - Creative Tools
   - Image Generation
@@ -39,6 +45,12 @@ apis:
 - aid: midjourney:discord-bot
   name: Midjourney Discord Bot
   tags:
+  - Artificial Intelligence
+  - Bot
+  - Chat Interface
+  - Discord
+  - Image-Generation
+  tags_raw:
   - AI
   - Bot
   - Chat Interface
@@ -84,6 +96,8 @@ apis:
   humanURL: https://docs.midjourney.com/
   baseURL: https://api.midjourney.com
   tags:
+  - Image-Generation
+  tags_raw:
   - Image Generation
   properties:
   - type: OpenAPI
@@ -124,6 +138,8 @@ apis:
   humanURL: https://docs.midjourney.com/
   baseURL: https://api.midjourney.com
   tags:
+  - Job
+  tags_raw:
   - Jobs
   properties:
   - type: OpenAPI

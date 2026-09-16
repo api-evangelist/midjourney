@@ -161,6 +161,8 @@ apis:
   - type: GraphQL
     url: graphql/midjourney-graphql.md
 common:
+- type: Website
+  url: https://midjourney.com
 - type: AgenticAccess
   url: agentic-access/midjourney-agentic-access.yml
 - type: DomainSecurity

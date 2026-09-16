@@ -49,12 +49,12 @@ apis:
   properties:
   - url: https://docs.midjourney.com/
     type: Documentation
-  description: >-
-    The Midjourney Web Application provides a browser-based interface for generating AI images using text
-    prompts. Users can create images, explore a gallery of community creations, manage their generated
-    image library, and access advanced features such as image editing, blending, and variation generation.
-    The web application serves as the primary interface for interacting with Midjourney's generative AI
-    models, complementing the original Discord-based experience with a dedicated creative workspace.
+  description: The Midjourney Web Application provides a browser-based interface for generating AI images
+    using text prompts. Users can create images, explore a gallery of community creations, manage their
+    generated image library, and access advanced features such as image editing, blending, and variation
+    generation. The web application serves as the primary interface for interacting with Midjourney's
+    generative AI models, complementing the original Discord-based experience with a dedicated creative
+    workspace.
 - aid: midjourney:discord-bot
   name: Midjourney Discord Bot
   tags:
@@ -75,17 +75,15 @@ apis:
   properties:
   - url: https://docs.midjourney.com/hc/en-us
     type: Documentation
-  description: >-
-    The Midjourney Discord Bot is the original interface for accessing Midjourney's AI image generation
-    service. Users interact with the bot through Discord slash commands such as /imagine, /blend, /describe,
-    and /shorten to generate and manipulate AI-created images. The bot supports features including text-to-image
-    generation, image upscaling, variation creation, and image blending, all within the Discord messaging
-    platform.
+  description: The Midjourney Discord Bot is the original interface for accessing Midjourney's AI image
+    generation service. Users interact with the bot through Discord slash commands such as /imagine, /blend,
+    /describe, and /shorten to generate and manipulate AI-created images. The bot supports features including
+    text-to-image generation, image upscaling, variation creation, and image blending, all within the
+    Discord messaging platform.
 - aid: midjourney:midjourney-image-analysis-api
   name: midjourney Image Analysis API
-  description: >-
-    Operations for analyzing existing images, including the describe endpoint that generates text prompts
-    from uploaded images.
+  description: Operations for analyzing existing images, including the describe endpoint that generates
+    text prompts from uploaded images.
   humanURL: https://docs.midjourney.com/
   baseURL: https://api.midjourney.com
   tags:
@@ -103,9 +101,8 @@ apis:
     url: graphql/midjourney-graphql.md
 - aid: midjourney:midjourney-image-generation-api
   name: midjourney Image Generation API
-  description: >-
-    Operations for generating images from text prompts, including the core imagine endpoint that produces
-    a grid of images from a natural language description.
+  description: Operations for generating images from text prompts, including the core imagine endpoint
+    that produces a grid of images from a natural language description.
   humanURL: https://docs.midjourney.com/
   baseURL: https://api.midjourney.com
   tags:
@@ -125,8 +122,7 @@ apis:
     url: graphql/midjourney-graphql.md
 - aid: midjourney:midjourney-image-manipulation-api
   name: midjourney Image Manipulation API
-  description: >-
-    Operations for manipulating existing generated images, including upscaling to higher resolutions,
+  description: Operations for manipulating existing generated images, including upscaling to higher resolutions,
     creating variations, blending multiple images, and region-based inpainting.
   humanURL: https://docs.midjourney.com/
   baseURL: https://api.midjourney.com
@@ -145,9 +141,8 @@ apis:
     url: graphql/midjourney-graphql.md
 - aid: midjourney:midjourney-jobs-api
   name: midjourney Jobs API
-  description: >-
-    Operations for tracking and managing asynchronous image generation jobs, including retrieving job
-    status, results, and listing previous jobs.
+  description: Operations for tracking and managing asynchronous image generation jobs, including retrieving
+    job status, results, and listing previous jobs.
   humanURL: https://docs.midjourney.com/
   baseURL: https://api.midjourney.com
   tags:
@@ -178,7 +173,11 @@ common:
   url: https://www.linkedin.com/company/midjourney
 - type: JSONLD
   url: json-ld/midjourney-context.jsonld
-modified: '2026-05-19'
-description: Midjourney is an independent research lab that produces an artificial
-  intelligence program creating images from textual descriptions, accessible primarily
-  through a Discord bot interface.
+modified: '2026-09-16'
+description: Midjourney is an independent research lab that produces an artificial intelligence program
+  creating images from textual descriptions, accessible primarily through a Discord bot interface.
+tags:
+- Image-Generation
+- Artificial Intelligence
+- Creative Tools
+- Job

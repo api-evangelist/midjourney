@@ -1,10 +1,7 @@
 {
   "provider": "midjourney",
   "sources": [
-    "midjourney-image-analysis-api-openapi.yml",
-    "midjourney-image-generation-api-openapi.yml",
-    "midjourney-image-manipulation-api-openapi.yml",
-    "midjourney-jobs-api-openapi.yml"
+    "_original/midjourney-image-generation-openapi.yml"
   ],
   "outputs": [
     "midjourney-image-analysis-api-openapi.yml",
@@ -15,6 +12,15 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "midjourney-image-generation-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "midjourney-image-analysis-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "midjourney-image-generation-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "midjourney-image-manipulation-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "midjourney-jobs-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
   title: Midjourney Image Generation Image Analysis API
-  description: The Midjourney Image Generation API provides programmatic access to Midjourney's AI-powered image generation capabilities. Developers can submit text prompts to generate images, upscale selected outputs to higher resolutions, create variations of generated images, describe existing images to generate prompts, and blend multiple images together. The API uses an asynchronous job-based workflow where image generation requests return a job identifier that can be polled for status and results. Webhook callbacks are supported for real-time job status notifications. Enterprise API access is available through the Midjourney Enterprise dashboard.
+  description: The Midjourney Image Generation API provides programmatic access to Midjourney's AI-powered image generation capabilities.
   version: 1.0.0
   contact:
     name: Midjourney Support
@@ -50,24 +50,6 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
-    JobCreatedResponse:
-      type: object
-      properties:
-        status:
-          type: string
-          description: Indicates the request was accepted.
-          enum:
-          - SUCCESS
-        message:
-          type: string
-          description: A human-readable message confirming job creation.
-        data:
-          type: object
-          properties:
-            job_id:
-              type: string
-              format: uuid
-              description: The unique identifier assigned to the created job. Use this ID to poll for status or receive webhook notifications.
     ErrorResponse:
       type: object
       properties:
@@ -104,6 +86,24 @@ components:
           - progress
           - result
           default: result
+    JobCreatedResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Indicates the request was accepted.
+          enum:
+          - SUCCESS
+        message:
+          type: string
+          description: A human-readable message confirming job creation.
+        data:
+          type: object
+          properties:
+            job_id:
+              type: string
+              format: uuid
+              description: The unique identifier assigned to the created job. Use this ID to poll for status or receive webhook notifications.
   securitySchemes:
     bearerAuth:
       type: http

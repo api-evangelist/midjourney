@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Midjourney Image Generation Image Analysis Jobs API
-  description: The Midjourney Image Generation API provides programmatic access to Midjourney's AI-powered image generation capabilities. Developers can submit text prompts to generate images, upscale selected outputs to higher resolutions, create variations of generated images, describe existing images to generate prompts, and blend multiple images together. The API uses an asynchronous job-based workflow where image generation requests return a job identifier that can be polled for status and results. Webhook callbacks are supported for real-time job status notifications. Enterprise API access is available through the Midjourney Enterprise dashboard.
+  title: Midjourney Image Generation Jobs API
+  description: The Midjourney Image Generation API provides programmatic access to Midjourney's AI-powered image generation capabilities.
   version: 1.0.0
   contact:
     name: Midjourney Support
@@ -140,6 +140,20 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
+    JobResult:
+      type: object
+      description: The output of a completed image generation job.
+      properties:
+        images:
+          type: array
+          description: List of generated image URLs. For imagine jobs this contains the grid image and individual image URLs. For upscale jobs this contains the single upscaled image.
+          items:
+            $ref: '#/components/schemas/GeneratedImage'
+        prompts:
+          type: array
+          description: List of generated prompt suggestions. Only present for describe job results.
+          items:
+            type: string
     GeneratedImage:
       type: object
       description: A single generated image with its metadata.
@@ -165,6 +179,20 @@ components:
           enum:
           - image/png
           - image/webp
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Indicates the request failed.
+          enum:
+          - ERROR
+        code:
+          type: string
+          description: Machine-readable error code identifying the type of error.
+        message:
+          type: string
+          description: Human-readable description of the error.
     JobListResponse:
       type: object
       properties:
@@ -261,34 +289,6 @@ components:
           type: string
           format: date-time
           description: ISO 8601 timestamp when the job completed, if applicable.
-    ErrorResponse:
-      type: object
-      properties:
-        status:
-          type: string
-          description: Indicates the request failed.
-          enum:
-          - ERROR
-        code:
-          type: string
-          description: Machine-readable error code identifying the type of error.
-        message:
-          type: string
-          description: Human-readable description of the error.
-    JobResult:
-      type: object
-      description: The output of a completed image generation job.
-      properties:
-        images:
-          type: array
-          description: List of generated image URLs. For imagine jobs this contains the grid image and individual image URLs. For upscale jobs this contains the single upscaled image.
-          items:
-            $ref: '#/components/schemas/GeneratedImage'
-        prompts:
-          type: array
-          description: List of generated prompt suggestions. Only present for describe job results.
-          items:
-            type: string
   parameters:
     jobId:
       name: jobId

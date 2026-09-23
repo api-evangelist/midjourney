@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Midjourney Image Generation Image Analysis Image Manipulation API
-  description: The Midjourney Image Generation API provides programmatic access to Midjourney's AI-powered image generation capabilities. Developers can submit text prompts to generate images, upscale selected outputs to higher resolutions, create variations of generated images, describe existing images to generate prompts, and blend multiple images together. The API uses an asynchronous job-based workflow where image generation requests return a job identifier that can be polled for status and results. Webhook callbacks are supported for real-time job status notifications. Enterprise API access is available through the Midjourney Enterprise dashboard.
+  title: Midjourney Image Generation Image Manipulation API
+  description: The Midjourney Image Generation API provides programmatic access to Midjourney's AI-powered image generation capabilities.
   version: 1.0.0
   contact:
     name: Midjourney Support
@@ -126,7 +126,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
-    UpscaleRequest:
+    VariationRequest:
       type: object
       required:
       - job_id
@@ -135,16 +135,16 @@ components:
         job_id:
           type: string
           format: uuid
-          description: The job identifier of the original image generation job containing the image to upscale.
+          description: The job identifier of the original image generation job containing the image to create variations from.
         index:
           type: integer
-          description: The index of the image in the generation grid to upscale, from 1 (top-left) to 4 (bottom-right).
+          description: The index of the image in the generation grid to vary, from 1 (top-left) to 4 (bottom-right).
           minimum: 1
           maximum: 4
         webhook_url:
           type: string
           format: uri
-          description: URL to receive webhook notifications for this upscale job.
+          description: URL to receive webhook notifications for this variation job.
         webhook_type:
           type: string
           description: Controls when webhook notifications are sent.
@@ -152,6 +152,24 @@ components:
           - progress
           - result
           default: result
+    JobCreatedResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Indicates the request was accepted.
+          enum:
+          - SUCCESS
+        message:
+          type: string
+          description: A human-readable message confirming job creation.
+        data:
+          type: object
+          properties:
+            job_id:
+              type: string
+              format: uuid
+              description: The unique identifier assigned to the created job. Use this ID to poll for status or receive webhook notifications.
     BlendRequest:
       type: object
       required:
@@ -207,7 +225,7 @@ components:
         message:
           type: string
           description: Human-readable description of the error.
-    VariationRequest:
+    UpscaleRequest:
       type: object
       required:
       - job_id
@@ -216,16 +234,16 @@ components:
         job_id:
           type: string
           format: uuid
-          description: The job identifier of the original image generation job containing the image to create variations from.
+          description: The job identifier of the original image generation job containing the image to upscale.
         index:
           type: integer
-          description: The index of the image in the generation grid to vary, from 1 (top-left) to 4 (bottom-right).
+          description: The index of the image in the generation grid to upscale, from 1 (top-left) to 4 (bottom-right).
           minimum: 1
           maximum: 4
         webhook_url:
           type: string
           format: uri
-          description: URL to receive webhook notifications for this variation job.
+          description: URL to receive webhook notifications for this upscale job.
         webhook_type:
           type: string
           description: Controls when webhook notifications are sent.
@@ -233,24 +251,6 @@ components:
           - progress
           - result
           default: result
-    JobCreatedResponse:
-      type: object
-      properties:
-        status:
-          type: string
-          description: Indicates the request was accepted.
-          enum:
-          - SUCCESS
-        message:
-          type: string
-          description: A human-readable message confirming job creation.
-        data:
-          type: object
-          properties:
-            job_id:
-              type: string
-              format: uuid
-              description: The unique identifier assigned to the created job. Use this ID to poll for status or receive webhook notifications.
   securitySchemes:
     bearerAuth:
       type: http

@@ -34,7 +34,7 @@ apis:
   tags:
   - Artificial Intelligence
   - Creative Tools
-  - Image-Generation
+  - Image Generation
   - User Interface
   - Web Application
   tags_raw:
@@ -43,6 +43,7 @@ apis:
   - Image Generation
   - User Interface
   - Web Application
+  - Image-Generation
   image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   baseURL: https://api.example.com
   humanURL: https://www.midjourney.com/
@@ -62,13 +63,14 @@ apis:
   - Bot
   - Chat Interface
   - Discord
-  - Image-Generation
+  - Image Generation
   tags_raw:
   - AI
   - Bot
   - Chat Interface
   - Discord
   - Image Generation
+  - Image-Generation
   image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   baseURL: https://api.example.com
   humanURL: https://docs.midjourney.com/hc/en-us
@@ -97,8 +99,6 @@ apis:
     url: asyncapi/midjourney-image-generation-asyncapi.yml
   - type: JSONSchema
     url: json-schema/midjourney-image-generation-job-schema.json
-  - type: GraphQL
-    url: graphql/midjourney-graphql.md
 - aid: midjourney:midjourney-image-generation-api
   name: midjourney Image Generation API
   description: Operations for generating images from text prompts, including the core imagine endpoint
@@ -106,9 +106,10 @@ apis:
   humanURL: https://docs.midjourney.com/
   baseURL: https://api.midjourney.com
   tags:
-  - Image-Generation
+  - Image Generation
   tags_raw:
   - Image Generation
+  - Image-Generation
   properties:
   - type: OpenAPI
     url: openapi/midjourney-image-generation-api-openapi.yml
@@ -118,8 +119,6 @@ apis:
     url: asyncapi/midjourney-image-generation-asyncapi.yml
   - type: JSONSchema
     url: json-schema/midjourney-image-generation-job-schema.json
-  - type: GraphQL
-    url: graphql/midjourney-graphql.md
 - aid: midjourney:midjourney-image-manipulation-api
   name: midjourney Image Manipulation API
   description: Operations for manipulating existing generated images, including upscaling to higher resolutions,
@@ -137,8 +136,6 @@ apis:
     url: asyncapi/midjourney-image-generation-asyncapi.yml
   - type: JSONSchema
     url: json-schema/midjourney-image-generation-job-schema.json
-  - type: GraphQL
-    url: graphql/midjourney-graphql.md
 - aid: midjourney:midjourney-jobs-api
   name: midjourney Jobs API
   description: Operations for tracking and managing asynchronous image generation jobs, including retrieving
@@ -158,8 +155,6 @@ apis:
     url: asyncapi/midjourney-image-generation-asyncapi.yml
   - type: JSONSchema
     url: json-schema/midjourney-image-generation-job-schema.json
-  - type: GraphQL
-    url: graphql/midjourney-graphql.md
 common:
 - type: Website
   url: https://midjourney.com
@@ -179,6 +174,11 @@ modified: '2026-09-16'
 description: Midjourney is an independent research lab that produces an artificial intelligence program
   creating images from textual descriptions, accessible primarily through a Discord bot interface.
 tags:
+- Image Generation
+- Artificial Intelligence
+- Creative Tools
+- Job
+tags_raw:
 - Image-Generation
 - Artificial Intelligence
 - Creative Tools

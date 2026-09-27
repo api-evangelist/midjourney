@@ -140,20 +140,23 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
-    JobResult:
+    JobListResponse:
       type: object
-      description: The output of a completed image generation job.
       properties:
-        images:
+        data:
           type: array
-          description: List of generated image URLs. For imagine jobs this contains the grid image and individual image URLs. For upscale jobs this contains the single upscaled image.
+          description: List of jobs matching the query parameters.
           items:
-            $ref: '#/components/schemas/GeneratedImage'
-        prompts:
-          type: array
-          description: List of generated prompt suggestions. Only present for describe job results.
-          items:
-            type: string
+            $ref: '#/components/schemas/Job'
+        total:
+          type: integer
+          description: Total number of jobs matching the filter criteria.
+        limit:
+          type: integer
+          description: The maximum number of results per page.
+        offset:
+          type: integer
+          description: The offset used for pagination.
     GeneratedImage:
       type: object
       description: A single generated image with its metadata.
@@ -193,23 +196,20 @@ components:
         message:
           type: string
           description: Human-readable description of the error.
-    JobListResponse:
+    JobResult:
       type: object
+      description: The output of a completed image generation job.
       properties:
-        data:
+        images:
           type: array
-          description: List of jobs matching the query parameters.
+          description: List of generated image URLs. For imagine jobs this contains the grid image and individual image URLs. For upscale jobs this contains the single upscaled image.
           items:
-            $ref: '#/components/schemas/Job'
-        total:
-          type: integer
-          description: Total number of jobs matching the filter criteria.
-        limit:
-          type: integer
-          description: The maximum number of results per page.
-        offset:
-          type: integer
-          description: The offset used for pagination.
+            $ref: '#/components/schemas/GeneratedImage'
+        prompts:
+          type: array
+          description: List of generated prompt suggestions. Only present for describe job results.
+          items:
+            type: string
     Job:
       type: object
       properties:

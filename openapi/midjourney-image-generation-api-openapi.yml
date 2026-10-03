@@ -56,38 +56,6 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
-    JobCreatedResponse:
-      type: object
-      properties:
-        status:
-          type: string
-          description: Indicates the request was accepted.
-          enum:
-          - SUCCESS
-        message:
-          type: string
-          description: A human-readable message confirming job creation.
-        data:
-          type: object
-          properties:
-            job_id:
-              type: string
-              format: uuid
-              description: The unique identifier assigned to the created job. Use this ID to poll for status or receive webhook notifications.
-    ErrorResponse:
-      type: object
-      properties:
-        status:
-          type: string
-          description: Indicates the request failed.
-          enum:
-          - ERROR
-        code:
-          type: string
-          description: Machine-readable error code identifying the type of error.
-        message:
-          type: string
-          description: Human-readable description of the error.
     ImagineRequest:
       type: object
       required:
@@ -145,7 +113,7 @@ components:
           description: A seed value for reproducible generation. Using the same seed with the same prompt and settings produces similar results.
           minimum: 0
           maximum: 4294967295
-        false:
+        'no':
           type: string
           description: Negative prompt specifying elements to exclude from the generated image.
         image_url:
@@ -163,6 +131,38 @@ components:
           - progress
           - result
           default: result
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Indicates the request failed.
+          enum:
+          - ERROR
+        code:
+          type: string
+          description: Machine-readable error code identifying the type of error.
+        message:
+          type: string
+          description: Human-readable description of the error.
+    JobCreatedResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Indicates the request was accepted.
+          enum:
+          - SUCCESS
+        message:
+          type: string
+          description: A human-readable message confirming job creation.
+        data:
+          type: object
+          properties:
+            job_id:
+              type: string
+              format: uuid
+              description: The unique identifier assigned to the created job. Use this ID to poll for status or receive webhook notifications.
   securitySchemes:
     bearerAuth:
       type: http

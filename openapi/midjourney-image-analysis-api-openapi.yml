@@ -64,24 +64,6 @@ components:
         message:
           type: string
           description: Human-readable description of the error.
-    JobCreatedResponse:
-      type: object
-      properties:
-        status:
-          type: string
-          description: Indicates the request was accepted.
-          enum:
-          - SUCCESS
-        message:
-          type: string
-          description: A human-readable message confirming job creation.
-        data:
-          type: object
-          properties:
-            job_id:
-              type: string
-              format: uuid
-              description: The unique identifier assigned to the created job. Use this ID to poll for status or receive webhook notifications.
     DescribeRequest:
       type: object
       properties:
@@ -104,6 +86,24 @@ components:
           - progress
           - result
           default: result
+    JobCreatedResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Indicates the request was accepted.
+          enum:
+          - SUCCESS
+        message:
+          type: string
+          description: A human-readable message confirming job creation.
+        data:
+          type: object
+          properties:
+            job_id:
+              type: string
+              format: uuid
+              description: The unique identifier assigned to the created job. Use this ID to poll for status or receive webhook notifications.
   securitySchemes:
     bearerAuth:
       type: http

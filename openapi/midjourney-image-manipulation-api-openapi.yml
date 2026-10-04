@@ -152,32 +152,6 @@ components:
           - progress
           - result
           default: result
-    UpscaleRequest:
-      type: object
-      required:
-      - job_id
-      - index
-      properties:
-        job_id:
-          type: string
-          format: uuid
-          description: The job identifier of the original image generation job containing the image to upscale.
-        index:
-          type: integer
-          description: The index of the image in the generation grid to upscale, from 1 (top-left) to 4 (bottom-right).
-          minimum: 1
-          maximum: 4
-        webhook_url:
-          type: string
-          format: uri
-          description: URL to receive webhook notifications for this upscale job.
-        webhook_type:
-          type: string
-          description: Controls when webhook notifications are sent.
-          enum:
-          - progress
-          - result
-          default: result
     BlendRequest:
       type: object
       required:
@@ -219,20 +193,6 @@ components:
           - progress
           - result
           default: result
-    ErrorResponse:
-      type: object
-      properties:
-        status:
-          type: string
-          description: Indicates the request failed.
-          enum:
-          - ERROR
-        code:
-          type: string
-          description: Machine-readable error code identifying the type of error.
-        message:
-          type: string
-          description: Human-readable description of the error.
     JobCreatedResponse:
       type: object
       properties:
@@ -251,6 +211,46 @@ components:
               type: string
               format: uuid
               description: The unique identifier assigned to the created job. Use this ID to poll for status or receive webhook notifications.
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Indicates the request failed.
+          enum:
+          - ERROR
+        code:
+          type: string
+          description: Machine-readable error code identifying the type of error.
+        message:
+          type: string
+          description: Human-readable description of the error.
+    UpscaleRequest:
+      type: object
+      required:
+      - job_id
+      - index
+      properties:
+        job_id:
+          type: string
+          format: uuid
+          description: The job identifier of the original image generation job containing the image to upscale.
+        index:
+          type: integer
+          description: The index of the image in the generation grid to upscale, from 1 (top-left) to 4 (bottom-right).
+          minimum: 1
+          maximum: 4
+        webhook_url:
+          type: string
+          format: uri
+          description: URL to receive webhook notifications for this upscale job.
+        webhook_type:
+          type: string
+          description: Controls when webhook notifications are sent.
+          enum:
+          - progress
+          - result
+          default: result
   securitySchemes:
     bearerAuth:
       type: http

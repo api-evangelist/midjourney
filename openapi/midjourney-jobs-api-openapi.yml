@@ -139,15 +139,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
-  parameters:
-    jobId:
-      name: jobId
-      in: path
-      required: true
-      description: The unique identifier of the image generation job.
-      schema:
-        type: string
-        format: uuid
   schemas:
     GeneratedImage:
       type: object
@@ -174,6 +165,20 @@ components:
           enum:
           - image/png
           - image/webp
+    JobResult:
+      type: object
+      description: The output of a completed image generation job.
+      properties:
+        images:
+          type: array
+          description: List of generated image URLs. For imagine jobs this contains the grid image and individual image URLs. For upscale jobs this contains the single upscaled image.
+          items:
+            $ref: '#/components/schemas/GeneratedImage'
+        prompts:
+          type: array
+          description: List of generated prompt suggestions. Only present for describe job results.
+          items:
+            type: string
     Job:
       type: object
       properties:
@@ -253,20 +258,6 @@ components:
           type: string
           format: date-time
           description: ISO 8601 timestamp when the job completed, if applicable.
-    JobResult:
-      type: object
-      description: The output of a completed image generation job.
-      properties:
-        images:
-          type: array
-          description: List of generated image URLs. For imagine jobs this contains the grid image and individual image URLs. For upscale jobs this contains the single upscaled image.
-          items:
-            $ref: '#/components/schemas/GeneratedImage'
-        prompts:
-          type: array
-          description: List of generated prompt suggestions. Only present for describe job results.
-          items:
-            type: string
     ErrorResponse:
       type: object
       properties:
@@ -298,6 +289,15 @@ components:
         offset:
           type: integer
           description: The offset used for pagination.
+  parameters:
+    jobId:
+      name: jobId
+      in: path
+      required: true
+      description: The unique identifier of the image generation job.
+      schema:
+        type: string
+        format: uuid
   securitySchemes:
     bearerAuth:
       type: http

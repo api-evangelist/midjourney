@@ -156,6 +156,8 @@ apis:
   - type: JSONSchema
     url: json-schema/midjourney-image-generation-job-schema.json
 common:
+- url: https://www.midjourney.com/blog/
+  type: Blog
 - type: Website
   url: https://midjourney.com
 - type: AgenticAccess
@@ -170,7 +172,7 @@ common:
   url: https://www.linkedin.com/company/midjourney
 - type: JSONLD
   url: json-ld/midjourney-context.jsonld
-modified: '2026-09-16'
+modified: '2026-10-06'
 description: Midjourney is an independent research lab that produces an artificial intelligence program
   creating images from textual descriptions, accessible primarily through a Discord bot interface.
 tags:

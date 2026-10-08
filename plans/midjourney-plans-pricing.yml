@@ -161,3 +161,56 @@ plans:
     elements:
       - name: Discount applied to all tiers
 maintainers: []
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - subscription
+  units:
+  - compute
+  - feature
+  - period
+  plans:
+  - name: Basic Plan
+    access: other
+    model: subscription
+    model_how: stated
+    units:
+    - compute
+    - period
+    periods:
+    - month
+  - name: Standard Plan
+    access: other
+    model: subscription
+    model_how: stated
+    units:
+    - compute
+    - period
+    periods:
+    - month
+  - name: Pro Plan
+    access: other
+    model: subscription
+    model_how: stated
+    units:
+    - feature
+    - period
+    periods:
+    - month
+  - name: Mega Plan
+    access: other
+    model: subscription
+    model_how: stated
+    units:
+    - period
+    periods:
+    - month
+  - name: Annual billing
+    access: other
+    model: subscription
+    model_how: stated
+    units:
+    - period
+    periods:
+    - year

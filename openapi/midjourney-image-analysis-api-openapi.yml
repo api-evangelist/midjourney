@@ -50,20 +50,6 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
-    ErrorResponse:
-      type: object
-      properties:
-        status:
-          type: string
-          description: Indicates the request failed.
-          enum:
-          - ERROR
-        code:
-          type: string
-          description: Machine-readable error code identifying the type of error.
-        message:
-          type: string
-          description: Human-readable description of the error.
     DescribeRequest:
       type: object
       properties:
@@ -86,6 +72,20 @@ components:
           - progress
           - result
           default: result
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Indicates the request failed.
+          enum:
+          - ERROR
+        code:
+          type: string
+          description: Machine-readable error code identifying the type of error.
+        message:
+          type: string
+          description: Human-readable description of the error.
     JobCreatedResponse:
       type: object
       properties:

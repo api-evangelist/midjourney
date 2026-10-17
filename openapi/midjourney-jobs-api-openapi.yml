@@ -140,45 +140,6 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
-    GeneratedImage:
-      type: object
-      description: A single generated image with its metadata.
-      properties:
-        url:
-          type: string
-          format: uri
-          description: The URL where the generated image can be downloaded.
-        index:
-          type: integer
-          description: The position of this image in the generation grid (1-4), or null for grid and upscaled images.
-          minimum: 1
-          maximum: 4
-        width:
-          type: integer
-          description: The width of the image in pixels.
-        height:
-          type: integer
-          description: The height of the image in pixels.
-        content_type:
-          type: string
-          description: The MIME type of the image file.
-          enum:
-          - image/png
-          - image/webp
-    JobResult:
-      type: object
-      description: The output of a completed image generation job.
-      properties:
-        images:
-          type: array
-          description: List of generated image URLs. For imagine jobs this contains the grid image and individual image URLs. For upscale jobs this contains the single upscaled image.
-          items:
-            $ref: '#/components/schemas/GeneratedImage'
-        prompts:
-          type: array
-          description: List of generated prompt suggestions. Only present for describe job results.
-          items:
-            type: string
     Job:
       type: object
       properties:
@@ -258,20 +219,6 @@ components:
           type: string
           format: date-time
           description: ISO 8601 timestamp when the job completed, if applicable.
-    ErrorResponse:
-      type: object
-      properties:
-        status:
-          type: string
-          description: Indicates the request failed.
-          enum:
-          - ERROR
-        code:
-          type: string
-          description: Machine-readable error code identifying the type of error.
-        message:
-          type: string
-          description: Human-readable description of the error.
     JobListResponse:
       type: object
       properties:
@@ -289,6 +236,59 @@ components:
         offset:
           type: integer
           description: The offset used for pagination.
+    GeneratedImage:
+      type: object
+      description: A single generated image with its metadata.
+      properties:
+        url:
+          type: string
+          format: uri
+          description: The URL where the generated image can be downloaded.
+        index:
+          type: integer
+          description: The position of this image in the generation grid (1-4), or null for grid and upscaled images.
+          minimum: 1
+          maximum: 4
+        width:
+          type: integer
+          description: The width of the image in pixels.
+        height:
+          type: integer
+          description: The height of the image in pixels.
+        content_type:
+          type: string
+          description: The MIME type of the image file.
+          enum:
+          - image/png
+          - image/webp
+    JobResult:
+      type: object
+      description: The output of a completed image generation job.
+      properties:
+        images:
+          type: array
+          description: List of generated image URLs. For imagine jobs this contains the grid image and individual image URLs. For upscale jobs this contains the single upscaled image.
+          items:
+            $ref: '#/components/schemas/GeneratedImage'
+        prompts:
+          type: array
+          description: List of generated prompt suggestions. Only present for describe job results.
+          items:
+            type: string
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Indicates the request failed.
+          enum:
+          - ERROR
+        code:
+          type: string
+          description: Machine-readable error code identifying the type of error.
+        message:
+          type: string
+          description: Human-readable description of the error.
   parameters:
     jobId:
       name: jobId

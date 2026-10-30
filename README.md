@@ -1,4 +1,4 @@
-# midjourney (midjourney)
+# Midjourney
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,82 +66,168 @@
 
 Midjourney is an independent research lab that produces an artificial intelligence program creating images from textual descriptions, accessible primarily through a Discord bot interface.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/midjourney/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/midjourney/refs/heads/main/apis.yml)
+**Areas:** Image Generation · Artificial Intelligence · Creative Tools · Job
 
-## Timestamps
+## Midjourney on APIs.io
 
-- **Modified:** 2026-05-19
+Everything profiled for Midjourney is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/midjourney/](https://apis.io/providers/midjourney/)** — or go straight to one of the APIs or properties below.
 
-## APIs
+### APIs (6)
 
-### Midjourney Image Generation API
+- [Midjourney Web Application](https://apis.io/apis/midjourney/web-application/) — The Midjourney Web Application provides a browser-based interface for generating AI images using text prompts. Users can create images, explore a gallery of…
+- [Midjourney Discord Bot](https://apis.io/apis/midjourney/discord-bot/) — The Midjourney Discord Bot is the original interface for accessing Midjourney's AI image generation service. Users interact with the bot through Discord…
+- [midjourney Image Analysis API](https://apis.io/apis/midjourney/midjourney-image-analysis-api/) — Operations for analyzing existing images, including the describe endpoint that generates text prompts from uploaded images.
+- [midjourney Image Generation API](https://apis.io/apis/midjourney/midjourney-image-generation-api/) — Operations for generating images from text prompts, including the core imagine endpoint that produces a grid of images from a natural language description.
+- [midjourney Image Manipulation API](https://apis.io/apis/midjourney/midjourney-image-manipulation-api/) — Operations for manipulating existing generated images, including upscaling to higher resolutions, creating variations, blending multiple images, and…
+- [midjourney Jobs API](https://apis.io/apis/midjourney/midjourney-jobs-api/) — Operations for tracking and managing asynchronous image generation jobs, including retrieving job status, results, and listing previous jobs.
 
-The Midjourney Image Generation API provides programmatic access to Midjourney's AI-powered image generation capabilities. Developers can submit text prompts to generate images, upscale selected outputs to higher resolutions, create variations of generated images, and use describe functionality to generate prompts from existing images.
+### Published properties
 
-- **Human URL:** [https://docs.midjourney.com/](https://docs.midjourney.com/)
-- **Base URL:** `https://api.midjourney.com`
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-#### Tags
+#### AsyncAPI (1)
 
-- AI
-- Creative Tools
-- Generative AI
-- Image Generation
-- Text to Image
+Event-driven and webhook contracts.
 
-#### Properties
+- [Midjourney Image Generation Webhooks](https://apis.io/asyncapis/midjourney/midjourney-image-generation-asyncapi/)
 
-- [Documentation](https://docs.midjourney.com/)
-- [OpenAPI](openapi/midjourney-image-generation-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/midjourney-image-generation.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/midjourney-image-generation.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [AsyncAPI](asyncapi/midjourney-image-generation-asyncapi.yml) — [AsyncAPI Specification](https://www.asyncapi.com/docs/reference/specification/latest)
-- [JSON Schema](json-schema/midjourney-image-generation-job-schema.json) — [JSON Schema](https://json-schema.org/specification)
+#### Event channels (1)
 
-### Midjourney Web Application
+Individual events and webhooks the provider emits.
 
-The Midjourney Web Application provides a browser-based interface for generating AI images using text prompts. Users can create images, explore a gallery of community creations, manage their generated image library, and access advanced features such as image editing, blending, and variation generation. The web application serves as the primary interface for interacting with Midjourney's generative AI models, complementing the original Discord-based experience with a dedicated creative workspace.
+- [/webhook](https://apis.io/channels/midjourney/webhook/)
 
-- **Human URL:** [https://www.midjourney.com/](https://www.midjourney.com/)
-- **Base URL:** `https://api.example.com`
+#### GraphQL (1)
 
-#### Tags
+GraphQL schemas.
 
-- AI
-- Creative Tools
-- Image Generation
-- User Interface
-- Web Application
+- [Moved to /providers/midjourney/](https://apis.io/graphqls/midjourney/midjourney-graphql/)
 
-#### Properties
+#### MCP servers (1)
 
-- [Documentation](https://docs.midjourney.com/)
-- [Postman Collection](collections/midjourney-image-generation.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/midjourney-image-generation.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+Model Context Protocol servers that expose the API to agents.
 
-### Midjourney Discord Bot
+- [midjourney](https://apis.io/servers/midjourney/midjourney/)
 
-The Midjourney Discord Bot is the original interface for accessing Midjourney's AI image generation service. Users interact with the bot through Discord slash commands such as /imagine, /blend, /describe, and /shorten to generate and manipulate AI-created images. The bot supports features including text-to-image generation, image upscaling, variation creation, and image blending, all within the Discord messaging platform.
+#### Agentic access (1)
 
-- **Human URL:** [https://docs.midjourney.com/hc/en-us](https://docs.midjourney.com/hc/en-us)
-- **Base URL:** `https://api.example.com`
+Which operations an agent can call, which act, and which need a human in the loop.
 
-#### Tags
+- [Midjourney Agentic Access](https://apis.io/agentic-access/midjourney/midjourney-agentic-access/)
 
-- AI
-- Bot
-- Chat Interface
-- Discord
-- Image Generation
+#### JSON Schema (1)
 
-#### Properties
+The data models the API reads and writes.
 
-- [Documentation](https://docs.midjourney.com/hc/en-us)
-- [Postman Collection](collections/midjourney-image-generation.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/midjourney-image-generation.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Midjourney Image Generation Job](https://apis.io/schemas/midjourney/midjourney-image-generation-job/)
 
-## Common Properties
+#### JSON-LD (1)
 
-- [GitHub Organization](https://github.com/midjourney)
-- [LinkedIn](https://www.linkedin.com/company/midjourney)
-- [JSON-LD](json-ld/midjourney-context.jsonld) — [JSON-LD](https://www.w3.org/TR/json-ld11/)
+Linked-data contexts for the provider's vocabulary.
+
+- [Midjourney Context](https://apis.io/jsonld/midjourney/midjourney-context/)
+
+#### Collections (5)
+
+Postman and Open Collection request collections.
+
+- [Midjourney Image Generation Image Analysis API](https://apis.io/collections/midjourney/open-midjourney-image-analysis-api/)
+- [Midjourney Image Generation API](https://apis.io/collections/midjourney/open-midjourney-image-generation/)
+- [Midjourney Image Analysis Image Generation API](https://apis.io/collections/midjourney/open-midjourney-image-generation-api/)
+- [Midjourney Image Generation Image Analysis Image Manipulation API](https://apis.io/collections/midjourney/open-midjourney-image-manipulation-api/)
+- [Midjourney Image Generation Image Analysis Jobs API](https://apis.io/collections/midjourney/open-midjourney-jobs-api/)
+
+#### Governance rules (2)
+
+Spectral rulesets for the provider's contracts.
+
+- [Midjourney — asyncapi rules](https://apis.io/rules/midjourney/midjourney-asyncapi-spectral-rules/)
+- [Midjourney — jsonschema rules](https://apis.io/rules/midjourney/midjourney-jsonschema-spectral-rules/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Midjourney Authentication](https://apis.io/security/midjourney/midjourney-authentication/)
+- [Midjourney Domain Security](https://apis.io/security/midjourney/midjourney-domain-security/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Midjourney Plans Pricing](https://apis.io/plans/midjourney/midjourney-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Midjourney Rate Limits](https://apis.io/rate-limits/midjourney/midjourney-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Midjourney Finops](https://apis.io/finops/midjourney/midjourney-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://midjourney.com)
+- [Blog](https://www.midjourney.com/blog/)
+- [GitHub](https://github.com/midjourney)
+
+## API Evangelist rating
+
+**Kin Score 28.9** — thin · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 46.7 |
+| Contract quality | 63.7 |
+| Contract governance | 13.6 |
+| Operational transparency | 10.5 |
+| Developer ergonomics | 23.8 |
+| Access clarity | 7.9 |
+
+**Agent readiness 53.9** — agent-ready (gated down from agent-native)
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | documented (partial credit) |
+| MCP Server | verified |
+| Auth Clarity | served (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | — |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | derived (partial credit) |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | served (partial credit) |
+| Protected Resource Metadata | verified |
+| Dynamic Client Registration | yes |
+| Agentic Commerce | — |
+| Pagination Ratio | paginated |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 15.5** — AI & Biometrics
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/midjourney/](https://apis.io/providers/midjourney/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Midjourney: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/midjourney/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
